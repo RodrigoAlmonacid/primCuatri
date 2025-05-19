@@ -6,16 +6,17 @@ class VagonCarga extends Vagon{
     //Atributos propios de la clase
     private $pesoMaxCarga;
     private $pesoActualCarga;
-    //private $pesoTotal;
+    private $pesoTotal;
 
     //Método constructor
-    public function __construct($anioInstalacion, $largo, $ancho, $pesoVacio, $pesoActualCarga, $pesoMaxCarga)
+    public function __construct($anioInstalacion, $largo, $ancho, $pesoVacio, $pesoMaxCarga)
     {
         //Llamo al método constructor de la clase padre
         parent::__construct($anioInstalacion, $largo, $ancho, $pesoVacio);
         //inicio los atributos propios
-        $this->pesoActualCarga = $pesoActualCarga;
+        $this->pesoTotal = $pesoVacio;
         $this->pesoMaxCarga = $pesoMaxCarga;
+        $this->pesoActualCarga = 0;
     }
 
     //Métodos de acceso
@@ -33,13 +34,20 @@ class VagonCarga extends Vagon{
         $this->pesoActualCarga = $carga;
     }
 
+    public function getPesoTotal(){
+        return $this->pesoTotal;
+    }
+    public function setPesoTotal($carga){
+        $this->pesoTotal = $carga;
+    }
+
     //Método toString
     public function __toString()
     {
         $vagonCarga = parent::__toString();
         $vagonCarga .= "Peso máximo soportado: ".$this->getPesoMaxCarga()."\n";
         $vagonCarga .= "Peso de carga actual: ".$this->getPesoActualCarga()."\n";
-        $vagonCarga .= "Peso total del vagon: ".$this->calcularPesoVagon()."\n";
+        $vagonCarga .= "Peso total del vagon: ".$this->getPesoTotal()."\n";
         return $vagonCarga;
     }
 
@@ -49,7 +57,7 @@ class VagonCarga extends Vagon{
         //Al peso de la carga debo agregarle un índice del 20%
         $pesoCarga = $this->getPesoActualCarga() * 1.2;
         $pesoVagon = $pesoVagon + $pesoCarga;
-        return $pesoVagon;
+        $this->setPesoTotal($pesoVagon);
     }
 
     /** funcion que incorpora, en caso de ser posible, carga al vagon
@@ -64,6 +72,7 @@ class VagonCarga extends Vagon{
         if ($nuevaCarga <= $cargaMaxima){
             $incorpora = true;
             $this->setPesoActualCarga($nuevaCarga);
+            $this->calcularPesoVagon();
         }
         return $incorpora;
     }
