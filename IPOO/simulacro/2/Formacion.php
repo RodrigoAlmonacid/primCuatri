@@ -1,4 +1,6 @@
 <?php
+include_once 'Locomotora.php';
+include_once 'Vagon.php';
 //Clase formacion, 2do simulacro
 class Formacion{
     //Atributos
@@ -135,9 +137,18 @@ class Formacion{
         $pesoTotal = 0;
         if($cantVagones>0){
             foreach($colVagones as $unVagon){
-                
+                $pesoVagon = $unVagon->getPesoActual();
+                $pesoTotal = $pesoTotal + $pesoVagon;
             }
         }
+        $pesoTotal = $pesoTotal + $pesoLocomotora;
+        return $pesoTotal;
+    }
+
+    //Método que retorna el primer vagón sin completar
+    public function retornarVagonSinCompletar(){
+        $vagonIncompleto = null;
+        
     }
     
 }
