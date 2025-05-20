@@ -101,7 +101,7 @@ class Formacion{
         $maximo = $this->getMaxVagones();
         if($nuevaCantidadVagones <= $maximo){
             $incorpora = true;
-            $vagonesFormacion = array_push($vagonesFormacion, $objVagon);
+            array_push($vagonesFormacion, $objVagon);
             $this->setColVagones($vagonesFormacion);
         }
         return $incorpora;
@@ -131,13 +131,14 @@ class Formacion{
 
     //Método para calcular el peso de la formacion
     public function pesoFormacion(){
+        $objLocomotora = $this->getObjLocomotora();
         $pesoLocomotora = $objLocomotora->getPeso();
         $colVagones = $this->getColVagones();
         $cantVagones = count($colVagones);
         $pesoTotal = 0;
         if($cantVagones>0){
             foreach($colVagones as $unVagon){
-                $pesoVagon = $unVagon->getPesoActual();
+                $pesoVagon = $unVagon->getPesoTotal();
                 $pesoTotal = $pesoTotal + $pesoVagon;
             }
         }
@@ -145,10 +146,30 @@ class Formacion{
         return $pesoTotal;
     }
 
-    //Método que retorna el primer vagón sin completar
+    //Método que retorna el primer vagón sin completar, en caso que todos los vagones estén completos returna falso
     public function retornarVagonSinCompletar(){
-        $vagonIncompleto = null;
-        
+        $vagonCompleto = false;
+        $vagonesFormacion = $this->getColVagones();
+        $cantidadVagones = count($vagonesFormacion);
+        $i=0;
+        if($cantidadVagones>0){
+            do{
+                $vagonPasajeros = is_a($vagonesFormacion[$i], 'VagonPasajeros.php');
+                if($vagonPasajeros){
+                    $pasajeros = $vagonesFormacion[$i]->getCantActualPasajeros();
+                    $maximo = $vagonesFormacion[$i]->getCantMaxPasajeros();
+                    $disponible = $maximo - $pasajeros;
+                    if($disponible>0){
+                        $vagonCompleto = true;
+                    }
+                }
+                $i++; 
+            }while($i<$cantidadVagones && !$vagonCompleto);
+            if($vagonCompleto){
+                $vagonCompleto = $i;
+            }
+        }
+        return $vagonCompleto;
     }
     
 }
