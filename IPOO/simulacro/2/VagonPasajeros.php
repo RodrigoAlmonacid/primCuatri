@@ -56,7 +56,6 @@ class VagonPasajeros extends Vagon{
         $vagonPasajeros = parent::__toString();
         $vagonPasajeros .= "Cantidad de pasajeros transportada: ".$this->getCantActualPasajeros()."\n";
         $vagonPasajeros .= "Cantidad máxima posible de pasajeros: ".$this->getCantMaxPasajeros()."\n";
-        $vagonPasajeros .= "Peso de los pasajeros del vagon: ".$this->getPesoVagonPasajeros()."\n";
         return $vagonPasajeros;
     }
 
@@ -65,6 +64,7 @@ class VagonPasajeros extends Vagon{
         $pesoVagon = $this->getPesoVagonPasajeros();
         $pesoPasajeros = $this->getCantActualPasajeros() * $this->getPesoPromedioPasajeros();
         $pesoVagon = $pesoVagon + $pesoPasajeros;
+        $this->setPesoVagonPasajeros($pesoVagon);
         parent::setPesoTotal($pesoVagon);
     }
 

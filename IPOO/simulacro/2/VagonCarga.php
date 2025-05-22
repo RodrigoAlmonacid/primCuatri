@@ -6,7 +6,8 @@ class VagonCarga extends Vagon{
     //Atributos propios de la clase
     private $pesoMaxCarga;
     private $pesoActualCarga;
-    private $pesoTotal;
+    private $pesoVagonCarga;
+    private $variableAumento;
 
     //Método constructor
     public function __construct($anioInstalacion, $largo, $ancho, $pesoVacio, $pesoMaxCarga)
@@ -14,9 +15,10 @@ class VagonCarga extends Vagon{
         //Llamo al método constructor de la clase padre
         parent::__construct($anioInstalacion, $largo, $ancho, $pesoVacio);
         //inicio los atributos propios
-        $this->pesoTotal = $pesoVacio;
+        $this->pesoVagonCarga = $pesoVacio;
         $this->pesoMaxCarga = $pesoMaxCarga;
         $this->pesoActualCarga = 0;
+        $this->variableAumento = 20; //20%
     }
 
     //Métodos de acceso
@@ -34,11 +36,18 @@ class VagonCarga extends Vagon{
         $this->pesoActualCarga = $carga;
     }
 
-    public function getPesoTotal(){
-        return $this->pesoTotal;
+    public function getPesoVagonCarga(){
+        return $this->pesoVagonCarga;
     }
-    public function setPesoTotal($carga){
-        $this->pesoTotal = $carga;
+    public function setPesoVagonCarga($carga){
+        $this->pesoVagonCarga = $carga;
+    }
+
+    public function getVariableAumento(){
+        return $this->variableAumento;
+    }
+    public function setVariableAumento($variable){
+            $this->variableAumento = $variable;
     }
 
     //Método toString
@@ -47,17 +56,17 @@ class VagonCarga extends Vagon{
         $vagonCarga = parent::__toString();
         $vagonCarga .= "Peso máximo soportado: ".$this->getPesoMaxCarga()."\n";
         $vagonCarga .= "Peso de carga actual: ".$this->getPesoActualCarga()."\n";
-        $vagonCarga .= "Peso total del vagon: ".$this->getPesoTotal()."\n";
         return $vagonCarga;
     }
 
     //Método que calcula el peso total del vagon
     public function calcularPesoVagon(){
-        $pesoVagon = $this->getPesoVacio();
+        $pesoVagon = $this->getPesoVagonCarga();
         //Al peso de la carga debo agregarle un índice del 20%
-        $pesoCarga = $this->getPesoActualCarga() * 1.2;
+        $pesoCarga = $this->getPesoActualCarga() * (1 + $this->getVariableAumento()/100);
         $pesoVagon = $pesoVagon + $pesoCarga;
-        $this->setPesoTotal($pesoVagon);
+        $this->setPesoVagonCarga($pesoVagon);
+        parent::setPesoTotal($pesoVagon);
     }
 
     /** funcion que incorpora, en caso de ser posible, carga al vagon

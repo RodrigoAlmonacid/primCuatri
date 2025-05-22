@@ -65,7 +65,7 @@ class Formacion{
         $cantidadVagones = count($vagonesFormacion);
         if($cantidadVagones>0){
             do{
-                if(is_a($vagonesFormacion[$i], 'VagonPasajeros')){
+                if(get_class($vagonesFormacion[$i]) === 'VagonPasajeros'){
                     $incorpora = $vagonesFormacion[$i]->incorporarPasajero($pasajeros);
                     //incorporarPasajero($carga) me actualiza la variable de corte y actualiza los datos del vagon en la coleccion
                 }
@@ -83,7 +83,7 @@ class Formacion{
         $cantidadVagones = count($vagonesFormacion);
         if($cantidadVagones>0){
             do{
-                if(is_a($vagonesFormacion[$i], 'VagonCarga')){
+                if(get_class($vagonesFormacion[$i]) === 'VagonCarga'){
                     $incorpora = $vagonesFormacion[$i]->incorporarCarga($carga);
                     //incorporarCarga($carga) me actualiza la variable de corte y actualiza los datos del vagon en la coleccion
                 }
@@ -116,7 +116,7 @@ class Formacion{
         $promedioPasajeros = 0;
         if($cantidadVagones>0){
             foreach($vagonesFormacion as $objVagon){
-                if(is_a($objVagon, 'VagonPasajeros')){
+                if(get_class($objVagon) === 'VagonPasajeros'){
                     $vagonesPasajeros++;
                     $pasajerosVagon = $objVagon->getCantActualPasajeros();
                     $pasajerosFormacion = $pasajerosFormacion + $pasajerosVagon;
@@ -154,7 +154,7 @@ class Formacion{
         $i=0;
         if($cantidadVagones>0){
             do{
-                $vagonPasajeros = is_a($vagonesFormacion[$i], 'VagonPasajeros.php');
+                $vagonPasajeros = get_class($vagonesFormacion[$i]) === 'VagonPasajeros.php';
                 if($vagonPasajeros){
                     $pasajeros = $vagonesFormacion[$i]->getCantActualPasajeros();
                     $maximo = $vagonesFormacion[$i]->getCantMaxPasajeros();
