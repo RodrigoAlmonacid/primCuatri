@@ -6,6 +6,7 @@ class Vagon{
     private $largo;
     private $ancho;
     private $pesoVacio;
+    private $pesoTotal;
 
     //Método constructor
     public function __construct($anioInstalacion, $largo, $ancho, $pesoVacio)
@@ -14,6 +15,7 @@ class Vagon{
         $this->largo = $largo;
         $this->ancho = $ancho;
         $this->pesoVacio = $pesoVacio;
+        $this->pesoTotal = $pesoVacio;
     }
 
     //Métodos de acceso
@@ -45,6 +47,13 @@ class Vagon{
         $this->pesoVacio = $pesoVacio;
     }
 
+    public function getPesoTotal(){
+        return $this->pesoTotal;
+    }
+    public function setPesoTotal($pesoTotal){
+        $this->pesoTotal = $pesoTotal;
+    }
+
     //Método toString
     public function __toString()
     {
@@ -52,6 +61,7 @@ class Vagon{
         $vagon .= "Largo: ".$this->getLargo()."\n";
         $vagon .= "Ancho: ".$this->getAncho()."\n";
         $vagon .= "Peso vacío: ".$this->getPesoVacio()."\n";
+        $vagon .= "Peso total del vagón: ".$this->getPesoTotal()."\n";
         return $vagon;
     }
 }

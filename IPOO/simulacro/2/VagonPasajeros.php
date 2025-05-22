@@ -7,7 +7,7 @@ class VagonPasajeros extends Vagon{
     private $cantMaxPasajeros;
     private $cantActualPasajeros;
     private $pesoPromedioPasajeros;
-    private $pesoTotal;
+    private $pesoVagonPasajeros;
 
     //Método constructor
     public function __construct($anioInstalacion, $largo, $ancho, $pesoVacio, $cantMaxPasajeros)
@@ -18,7 +18,7 @@ class VagonPasajeros extends Vagon{
         $this->cantActualPasajeros = 0;
         $this->cantMaxPasajeros = $cantMaxPasajeros;
         $this->pesoPromedioPasajeros = 50;
-        $this->pesoTotal = $pesoVacio;
+        $this->pesoVagonPasajeros = $pesoVacio;
     }
 
     //Métodos de acceso
@@ -43,11 +43,11 @@ class VagonPasajeros extends Vagon{
         $this->pesoPromedioPasajeros = $promedio;
     }
 
-    public function getPesoTotal(){
-        return $this->pesoTotal;
+    public function getPesoVagonPasajeros(){
+        return $this->pesoVagonPasajeros;
     }
-    public function setPesoTotal($peso){
-        $this->pesoTotal = $peso;
+    public function setPesoVagonPasajeros($peso){
+        $this->pesoVagonPasajeros = $peso;
     }    
 
     //Método toString
@@ -56,16 +56,16 @@ class VagonPasajeros extends Vagon{
         $vagonPasajeros = parent::__toString();
         $vagonPasajeros .= "Cantidad de pasajeros transportada: ".$this->getCantActualPasajeros()."\n";
         $vagonPasajeros .= "Cantidad máxima posible de pasajeros: ".$this->getCantMaxPasajeros()."\n";
-        $vagonPasajeros .= "Peso total del vagon: ".$this->getPesoTotal()."\n";
+        $vagonPasajeros .= "Peso de los pasajeros del vagon: ".$this->getPesoVagonPasajeros()."\n";
         return $vagonPasajeros;
     }
 
     //Método que calcula el peso total del vagon
     private function calcularPesoVagon(){
-        $pesoVagon = $this->getPesoVacio();
+        $pesoVagon = $this->getPesoVagonPasajeros();
         $pesoPasajeros = $this->getCantActualPasajeros() * $this->getPesoPromedioPasajeros();
         $pesoVagon = $pesoVagon + $pesoPasajeros;
-        $this->setPesoTotal($pesoVagon);
+        parent::setPesoTotal($pesoVagon);
     }
 
     /** funcion que me permite, en caso de ser posible, incorporar pasajeros
