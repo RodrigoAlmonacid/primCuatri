@@ -1,4 +1,4 @@
-.header {
+header {
     display: flex;
     align-items: center;
     padding: 1rem;
@@ -6,6 +6,11 @@
     border-bottom: 2px solid #091cc7;
     position: sticky;
     top: 0;
+}
+
+body {
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 .logo-container {
@@ -28,6 +33,11 @@
     margin-left: auto;
     display: flex;
     gap: 1em;
+}
+
+.nav-links {
+    margin-right: auto;
+    margin-bottom: auto;
 }
 
 .nav-links a {
