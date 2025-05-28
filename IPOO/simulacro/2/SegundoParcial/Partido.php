@@ -17,8 +17,6 @@ class Partido{
             $this->objEquipo2 = $objEquipo2;
             $this->cantGolesE2 = $cantGolesE2;
             $this->coefBase = 0.5;
-
-
     }
 
     //OBSERVADORES
@@ -38,15 +36,14 @@ class Partido{
         return $this->fecha;
     }
 
-
- public function setCantGolesE1($cantGolesE1){
+    public function setCantGolesE1($cantGolesE1){
         $this->cantGolesE1= $cantGolesE1;
     }
 
     public function getCantGolesE1(){
         return $this->cantGolesE1;
     }
- public function setCantGolesE2($cantGolesE2){
+    public function setCantGolesE2($cantGolesE2){
         $this->cantGolesE2= $cantGolesE2;
     }
 
@@ -54,50 +51,57 @@ class Partido{
         return $this->cantGolesE2;
     }
 
-
-
- public function setObjEquipo1($objEquipo1){
+    public function setObjEquipo1($objEquipo1){
         $this->objEquipo1= $objEquipo1;
     }
     public function getObjEquipo1(){
         return $this->objEquipo1;
     }
 
-
- public function setObjEquipo2($objEquipo2){
+    public function setObjEquipo2($objEquipo2){
         $this->objEquipo2= $objEquipo2;
     }
     public function getObjEquipo2(){
         return $this->objEquipo2;
     }
 
-
-
-
-     public function setCoefBase($coefBase){
+    public function setCoefBase($coefBase){
          $this->coefBase = $coefBase;
     }
       public function getCoefBase(){
         return $this->coefBase;
     }
 
-
-
-public function __toString(){
+    public function __toString(){
         //string $cadena
         $cadena = "idpartido: ".$this->getIdpartido()."\n";
         $cadena = $cadena. "Fecha: ".$this->getFecha()."\n";
         $cadena = $cadena."\n"."--------------------------------------------------------"."\n";
         $cadena = $cadena. "<Equipo 1> "."\n".$this->getObjEquipo1()."\n";
         $cadena = $cadena. "Cantidad Goles E1: ".$this->getCantGolesE1()."\n";
-          $cadena = $cadena. "\n"."--------------------------------------------------------"."\n";
-         $cadena = $cadena. "\n"."--------------------------------------------------------"."\n";
+        $cadena = $cadena. "\n"."--------------------------------------------------------"."\n";
+        $cadena = $cadena. "\n"."--------------------------------------------------------"."\n";
         $cadena = $cadena. "<Equipo 2> "."\n".$this->getObjEquipo2()."\n";
         $cadena = $cadena. "Cantidad Goles E2: ".$this->getCantGolesE2()."\n";
-         $cadena = $cadena. "\n"."--------------------------------------------------------"."\n";
+        $cadena = $cadena. "\n"."--------------------------------------------------------"."\n";
         return $cadena;
     }
+
+    public function darEquipoGanador(){
+        $golesE1 = $this->cantGolesE1;
+        $golesE2 = $this->cantGolesE2;
+        $equipo1 = $this->getObjEquipo1();
+        $equipo2 = $this->getObjEquipo2();
+        if($golesE1>$golesE2){
+            $ganador = $equipo1->getNombre();
+        }
+        elseif($golesE1<$golesE2){
+            $ganador = $equipo2->getNombre();
+        }
+        else{
+            $ganador = $equipo1->getNombre()."\n".$equipo2->getNombre();
+        }
+        return $ganador;
+    }
 }
-
-
 ?>

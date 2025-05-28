@@ -11,14 +11,13 @@ class Equipo{
 		$this->cantJugadores=$cantJugadores;
 		$this->objCategoria=$objCategoria;
 	}
-  public function setNombre($nombre){
+    public function setNombre($nombre){
          $this->nombre= $nombre;
     }
 
     public function getNombre(){
         return $this->nombre;
     }
-
 
      public function setCapitan($capitan){
          $this->capitan= $capitan;
@@ -28,9 +27,7 @@ class Equipo{
         return $this->capitan;
     }
 
-
-
- public function setCantJugadores($cantJugadores){
+    public function setCantJugadores($cantJugadores){
          $this->cantJugadores= $cantJugadores;
     }
 
@@ -38,7 +35,7 @@ class Equipo{
         return $this->cantJugadores;
     }
 
-     public function setObjCategoria($objCategoria){
+    public function setObjCategoria($objCategoria){
          $this->objCategoria= $objCategoria;
     }
 
@@ -46,13 +43,13 @@ class Equipo{
         return $this->objCategoria;
     }
 
-public function __toString(){
+    public function __toString(){
         //string $cadena
         $cadena = "Nombre: ".$this->getNombre()."\n";
         $cadena = $cadena. "capitan: ".$this->getCapitan()."\n";
-         $cadena = $cadena. "Categoria: ".$this->getObjCategoria()->getDescripcion()."\n";
+        $cadena = $cadena. "Categoria: ".$this->getObjCategoria()->getDescripcion()."\n";
         $cadena = $cadena. "Cant. Jugadores: ".$this->getCantJugadores()."\n";
         return $cadena;
-         }
-     }
+        }
+}
 ?>
