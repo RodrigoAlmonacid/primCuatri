@@ -4,6 +4,7 @@ class PartidoBasquet extends Partido{
     //Atributos propios de la clase
     private $infraccionesE1;
     private $infraccionesE2;
+    private $coefBasquet;
 
     //Método constructor
     public function __construct($idpartido, $fecha, $objEquipo1, $cantGolesE1, $objEquipo2, $cantGolesE2, $infraccionesE1, $infraccionesE2)
@@ -13,6 +14,7 @@ class PartidoBasquet extends Partido{
         //Inicio el atributo propio de la clase
         $this->infraccionesE1=$infraccionesE1;
         $this->infraccionesE2=$infraccionesE2;
+        $this->coefBasquet=0.75;
     }
 
     //Métodos de acceso
@@ -28,6 +30,13 @@ class PartidoBasquet extends Partido{
     }
     public function setInfraccionesE2($infraccionesE2){
         $this->infraccionesE2=$infraccionesE2;
+    }
+
+    public function getCoefBasquet(){
+        return $this->coefBasquet;
+    }
+    public function setCoefBasquet($coeficiente){
+        $this->coefBasquet=$coeficiente;
     }
 
     //Método toString

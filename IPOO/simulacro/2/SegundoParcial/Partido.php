@@ -93,13 +93,13 @@ class Partido{
         $equipo1 = $this->getObjEquipo1();
         $equipo2 = $this->getObjEquipo2();
         if($golesE1>$golesE2){
-            $ganador = $equipo1->getNombre();
+            $ganador = $equipo1;
         }
         elseif($golesE1<$golesE2){
-            $ganador = $equipo2->getNombre();
+            $ganador = $equipo2;
         }
         else{
-            $ganador = $equipo1->getNombre()."\n".$equipo2->getNombre();
+            $ganador = $equipo1.$equipo2;
         }
         return $ganador;
     }
