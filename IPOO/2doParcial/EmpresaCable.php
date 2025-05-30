@@ -51,9 +51,14 @@ class EmpresaCable{
             $i=0;
             $encuentra = false;
             do{
-                $cliente = $colContratos->getObjCliente();
-            }
-        }
+                $cliente = $colContratos[$i]->getObjCliente();
+                $dniCliente = $cliente[$i]->getDni();
+                $tipoCliente = $cliente[$i]->getTipoDni();
+                if($tipo==$tipoCliente && $dni==$dniCliente){
+                    $encuentra = true;
+                    $contrato = $colContratos[$i];
+                }
+            }while($i<$cantContratos && !$encuentra);
     }
 }
 ?>
