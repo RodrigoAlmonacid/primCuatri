@@ -8,9 +8,56 @@ header {
     top: 0;
 }
 
+
+.img1 {
+    display: flex;
+    top: 50px;
+    width: 150px;
+    height: auto;
+    float: right;
+    margin-left: 20px;
+
+}
+
+.img2 {
+    display: flex;
+    align-items: flex-start;
+    width: 150px;
+    height: auto;
+    float: left;
+    margin-left: 20px;
+    
+}
+
+.img3 {
+    display: flex;
+    top: 300px;
+    align-items: flex-end;
+    width: 150px;
+    height: auto;
+    float: right;
+    margin-left: 20px;
+
+}
+
+.img4 {
+    display: flex;
+    align-items: end;
+    width: 150px;
+    height: auto;
+    float: left;
+    margin-left: 20px;
+
+}
+
+p {
+    text-align: justify;
+}
+
 body {
     margin-left: 100px;
     margin-right: 100px;
+    background-color: aquamarine;
 }
 
 .logo-container {
@@ -30,6 +77,9 @@ body {
 }
 
 .menu {
+    position: relative;
+    top: 80px;
+    right: 50px;
     margin-left: auto;
     display: flex;
     gap: 1em;
