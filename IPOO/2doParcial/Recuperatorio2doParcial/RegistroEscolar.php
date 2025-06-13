@@ -19,7 +19,13 @@ Class RegistroEscolar extends RegistroVehiculo{
         $this->cantAsientos = $cantAsientos;
     }
 
-
+    //Método Valor peaje
+    public function valorPeaje(){
+        $valorBase=25;
+        $valorEscolar = $valorBase*$this->getCantAsientos();
+        return $valorEscolar;
+    }
+    
     //metodo toString
     public function __toString()
     {
