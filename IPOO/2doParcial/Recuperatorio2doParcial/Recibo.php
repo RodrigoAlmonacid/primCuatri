@@ -57,9 +57,6 @@ Class Recibo{
     }
 
     //metodo toString
-    public function __toString()
-    {
-        
-    }
+ 
 }
 ?>
