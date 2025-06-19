@@ -53,7 +53,13 @@ class Persona{
         $base=new BaseDatos();
         $consulta='SELECT * FROM persona WHERE dni='.$dni;
         if($base->iniciar()){
-            
+            if($base->Ejecutar($consulta)){
+                if($row2=$base->Registro()){
+                    $this->setDni($dni);
+                    $this->setNombre($row2['nombre']);
+                    $this->setApellido($row2['apellido']);
+                }
+            }
         }
     }
 }
