@@ -75,6 +75,7 @@ class BaseDatos {
      */
     public function Iniciar() {
         $resp = false;
+        mysqli_report(MYSQLI_REPORT_OFF);
         $conexion = mysqli_connect(
             $this->getHostName(),
             $this->getUsuario(),
@@ -102,16 +103,15 @@ class BaseDatos {
     public function Ejecutar($consulta) {
         $this->setError(null);
         $this->setQuery($consulta);
-
         $result = mysqli_query($this->conexion, $consulta);
         $this->setResult($result);
-
+        $ejecuta=false;
         if ($result) {
-            return true;
+            $ejecuta=true;
         } else {
             $this->setError(mysqli_errno($this->conexion) . ": " . mysqli_error($this->conexion));
-            return false;
         }
+        return $ejecuta;
     }
 
     /**
@@ -157,6 +157,4 @@ class BaseDatos {
         }
     }
 }
-  
-
 ?>

@@ -61,7 +61,7 @@ class Persona{
     public function buscar($dni){
         $base=new BaseDatos();
         $consulta='SELECT * FROM persona WHERE dni='.$dni;
-        $respuesta=false;
+        $busqueda=false;
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $row2=$base->Registro();
@@ -69,11 +69,7 @@ class Persona{
                     $this->setDni($dni);
                     $this->setNombre($row2['nombre']);
                     $this->setApellido($row2['apellido']);
-                    $respuesta=true;
-                }
-                else{
-                    $this->setApellido('Lo siento');
-                    $this->setNombre('persona no encontrada');
+                    $busqueda=true;
                 }				
 		 	}
             else{
@@ -83,7 +79,87 @@ class Persona{
         else{
 			$this->setMensaje($base->getError()); 	
 		}		
-		return $respuesta;
+		return $busqueda;
 	}
+
+    /** funcion que me permite insertar una persona cuando esta no exista en la base de datos
+     * @param int $dni
+     * @param strig $nombre, $apellido
+     * @return bool
+     */
+    public function insertar(){
+        $agrega=false;
+        $base=new BaseDatos();
+        $consulta="INSERT INTO persona(dni, nombre, apellido) VALUES ";
+        $consulta.="(".$this->getDni().", '".$this->getNombre()."', '".$this->getApellido()."');";
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $agrega=true;
+            }
+            else{
+			    $this->setMensaje($base->getError());
+		    }
+        }	
+        else{
+			$this->setMensaje($base->getError()); 	
+        }
+        return $agrega;   
+    }
+
+    /** Funcion que me permite modificar datos de una persona
+     * @param int $dni
+     * @param strig $nombre, $apellido
+     * @return bool
+     */
+    public function modificar($dni, $nombre, $apellido){
+        $base=new BaseDatos();
+        $modifica=false;
+        $consulta="UPDATE persona SET ";
+        if($nombre!=0){
+            $consulta.="nombre='".$nombre."' ";
+        }
+        if($nombre!=0 && $apellido!=0){
+            $consulta.=", ";
+        }
+        if($apellido!=0){
+            $consulta.="apellido='".$apellido."' ";
+        }
+        $consulta.="WHERE dni=".$dni.";";
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $modifica=true;
+            }
+            else{
+			    $this->setMensaje($base->getError());	
+		    }
+        }	
+        else{
+			$this->setMensaje($base->getError()); 	
+        }
+        return $consulta;
+    }
+
+    /** funcion que me permite eliminar datos de una persona, siempre que las pilíticas lo permitan
+     * @param int $dni
+     * @param string $nombre, $apellido
+     * @return bool
+     */
+    public function eliminar($dni){
+        $base=new BaseDatos();
+        $elimina=false;
+        $consulta="DELETE FROM persona WHERE dni=".$dni;
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $elimina=true;
+            }
+            else{
+			    $this->setMensaje($base->getError());	
+		    }
+        }	
+        else{
+			$this->setMensaje($base->getError()); 	
+        }
+        return $elimina;
+    }
 }
 ?>
