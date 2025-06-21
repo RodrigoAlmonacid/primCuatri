@@ -1,72 +1,72 @@
 <?php
 class BaseDatos {
-    private $HOSTNAME;
-    private $BASEDATOS;
-    private $USUARIO;
-    private $CLAVE;
-    private $CONEXION;
-    private $QUERY;
-    private $RESULT;
-    private $ERROR;
+    private $hostName;
+    private $baseDatos;
+    private $usuario;
+    private $clave;
+    private $conexion;
+    private $query;
+    private $result;
+    private $error;
 
     public function __construct() {
-        $this->HOSTNAME = "localhost";
-        $this->BASEDATOS = "bdviajes";
-        $this->USUARIO = "phpmyadmin";
-        $this->CLAVE = "Patagonia1291";
-        $this->RESULT = null;
-        $this->QUERY = "";
-        $this->ERROR = "";
+        $this->hostName = "localhost";
+        $this->baseDatos = "bdviajes";
+        $this->usuario = "phpmyadmin";
+        $this->clave = "Patagonia1291";
+        $this->result = null;
+        $this->query = "";
+        $this->error = "";
     }
 
     // Métodos de acceso
-    public function getHostname() {
-        return $this->HOSTNAME;
+    public function getHostName() {
+        return $this->hostName;
     }
-    public function setHostname($host) {
-        $this->HOSTNAME = $host;
+    public function setHostName($host) {
+        $this->hostName = $host;
     }
 
     public function getBaseDatos() {
-        return $this->BASEDATOS;
+        return $this->baseDatos;
     }
     public function setBaseDatos($base) {
-        $this->BASEDATOS = $base;
+        $this->baseDatos = $base;
     }
 
     public function getUsuario() {
-        return $this->USUARIO;
+        return $this->usuario;
     }
     public function setUsuario($usuario) {
-        $this->USUARIO = $usuario;
+        $this->usuario = $usuario;
     }
 
     public function getClave() {
-        return $this->CLAVE;
+        return $this->clave;
     }
     public function setClave($clave) {
-        $this->CLAVE = $clave;
+        $this->clave = $clave;
     }
 
     public function getResult() {
-        return $this->RESULT;
+        return $this->result;
     }
     public function setResult($result) {
-        $this->RESULT = $result;
+        $this->result = $result;
     }
 
     public function getQuery() {
-        return $this->QUERY;
+        return $this->query;
     }
     public function setQuery($query) {
-        $this->QUERY = $query;
+        $this->query = $query;
     }
 
     public function getError() {
-        return $this->ERROR;
+        return $this->error;
     }
     public function setError($error) {
-        $this->ERROR = $error;
+        $this->error = $error;
     }
 
     /**
@@ -76,14 +76,14 @@ class BaseDatos {
     public function Iniciar() {
         $resp = false;
         $conexion = mysqli_connect(
-            $this->getHostname(),
+            $this->getHostName(),
             $this->getUsuario(),
             $this->getClave(),
             $this->getBaseDatos()
         );
 
         if ($conexion) {
-            $this->CONEXION = $conexion;
+            $this->conexion = $conexion;
             $this->setQuery(null);
             $this->setError(null);
             $resp = true;
@@ -103,13 +103,13 @@ class BaseDatos {
         $this->setError(null);
         $this->setQuery($consulta);
 
-        $result = mysqli_query($this->CONEXION, $consulta);
+        $result = mysqli_query($this->conexion, $consulta);
         $this->setResult($result);
 
         if ($result) {
             return true;
         } else {
-            $this->setError(mysqli_errno($this->CONEXION) . ": " . mysqli_error($this->CONEXION));
+            $this->setError(mysqli_errno($this->conexion) . ": " . mysqli_error($this->conexion));
             return false;
         }
     }
@@ -131,7 +131,7 @@ class BaseDatos {
                 $this->setResult(null);
             }
         } else {
-            $this->setError(mysqli_errno($this->CONEXION) . ": " . mysqli_error($this->CONEXION));
+            $this->setError(mysqli_errno($this->conexion) . ": " . mysqli_error($this->conexion));
         }
 
         return $resp;
@@ -146,13 +146,13 @@ class BaseDatos {
         $this->setError(null);
         $this->setQuery($consulta);
 
-        $result = mysqli_query($this->CONEXION, $consulta);
+        $result = mysqli_query($this->conexion, $consulta);
         $this->setResult($result);
 
         if ($result) {
-            return mysqli_insert_id($this->CONEXION);
+            return mysqli_insert_id($this->conexion);
         } else {
-            $this->setError(mysqli_errno($this->CONEXION) . ": " . mysqli_error($this->CONEXION));
+            $this->setError(mysqli_errno($this->conexion) . ": " . mysqli_error($this->conexion));
             return null;
         }
     }

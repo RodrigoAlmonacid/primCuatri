@@ -5,13 +5,15 @@ class Persona{
     private $nombre;
     private $apellido;
     private $dni;
+    private $mensaje;
 
     //Método constructor
-    public function __construct($nombre, $apellido, $dni)
+    public function __construct()
     {
-        $this->nombre=$nombre;
-        $this->apellido=$apellido;
-        $this->dni=$dni;
+        $this->nombre="";
+        $this->apellido="";
+        $this->dni="";
+        $this->mensaje="";
     }
 
     //Métodos de acceso
@@ -20,6 +22,13 @@ class Persona{
     }
     public function setNombre($nombre){
         $this->nombre=$nombre;
+    }
+
+    public function getMensaje(){
+        return $this->mensaje;
+    }
+    public function setMensaje($mensaje){
+        $this->mensaje=$mensaje;
     }
 
     public function getApellido(){
@@ -52,15 +61,29 @@ class Persona{
     public function buscar($dni){
         $base=new BaseDatos();
         $consulta='SELECT * FROM persona WHERE dni='.$dni;
+        $respuesta=false;
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
-                if($row2=$base->Registro()){
+                $row2=$base->Registro();
+                if($row2){
                     $this->setDni($dni);
                     $this->setNombre($row2['nombre']);
                     $this->setApellido($row2['apellido']);
+                    $respuesta=true;
                 }
-            }
-        }
-    }
+                else{
+                    $this->setApellido('Lo siento');
+                    $this->setNombre('persona no encontrada');
+                }				
+		 	}
+            else{
+		 		$this->setMensaje($base->getError());	
+			}
+		}	
+        else{
+			$this->setMensaje($base->getError()); 	
+		}		
+		return $respuesta;
+	}
 }
 ?>
