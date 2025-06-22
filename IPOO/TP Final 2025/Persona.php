@@ -82,6 +82,16 @@ class Persona{
 		return $busqueda;
 	}
 
+    /** funcion que me permite cargar datos de una nueva persona al objeto
+     * @param int $dni
+     * @param string $nombre, $apellido
+     */
+    public function cargar($dni, $nombre, $apellido){
+        $this->setNombre($nombre);
+        $this->setApellido($apellido);
+        $this->setDni($dni);
+    }
+
     /** funcion que me permite insertar una persona cuando esta no exista en la base de datos
      * @param int $dni
      * @param strig $nombre, $apellido
@@ -111,20 +121,13 @@ class Persona{
      * @param strig $nombre, $apellido
      * @return bool
      */
-    public function modificar($dni, $nombre, $apellido){
+    public function modificar(){
         $base=new BaseDatos();
         $modifica=false;
         $consulta="UPDATE persona SET ";
-        if($nombre!=0){
-            $consulta.="nombre='".$nombre."' ";
-        }
-        if($nombre!=0 && $apellido!=0){
-            $consulta.=", ";
-        }
-        if($apellido!=0){
-            $consulta.="apellido='".$apellido."' ";
-        }
-        $consulta.="WHERE dni=".$dni.";";
+        $consulta.="nombre='".$this->getNombre()."' ";
+        $consulta.="apellido='".$this->getApellido()."' ";
+        $consulta.="WHERE dni=".$this->getDni().";";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $modifica=true;
@@ -136,12 +139,11 @@ class Persona{
         else{
 			$this->setMensaje($base->getError()); 	
         }
-        return $consulta;
+        return $modifica;
     }
 
     /** funcion que me permite eliminar datos de una persona, siempre que las pilíticas lo permitan
      * @param int $dni
-     * @param string $nombre, $apellido
      * @return bool
      */
     public function eliminar($dni){

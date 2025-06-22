@@ -30,10 +30,20 @@ class Pasajero extends Persona{
         return $pasajero;
     }
 
+    /** funcion que me permite cargar un pasajero
+     * @param int $dni, $telefono
+     * @param string $nombre, $apellido
+     */
+    public function cargarPasajero($dni, $nombre, $apellido, $telefono)
+    {
+        parent::cargar($dni, $nombre, $apellido);
+        $this->setTelefono($telefono);
+    }
+
     /** funcion para buscar un pasajero en la base de datos (tabla pasajero)
      * 'dni' es la clave primaria en la tabla
      * @param int $dni
-     * @return array
+     * @return bool
      */
     public function buscar($dni){
         $base=new BaseDatos();
@@ -43,9 +53,8 @@ class Pasajero extends Persona{
             if($base->Ejecutar($consulta)){
                 $row2=$base->Registro();
                 if($row2){
-                    parent::setDni($dni);
-                    parent::setNombre($row2['nombre']);
-                    parent::setApellido($row2['apellido']);
+                    parent::buscar($dni);
+                    $this->setTelefono($row2['telefono']);
                     $busqueda=true;
                 }				
 		 	}
@@ -67,19 +76,18 @@ class Pasajero extends Persona{
     public function insertar(){
         $agrega=false;
         $base=new BaseDatos();
-        $consulta="INSERT INTO pasajero(dni, telefono) VALUES ";
-        $consulta.="(".parent::getDni().", '".$this->getTelefono()."');";
+        $consulta="INSERT INTO pasajero(dniPasajero, telefono) VALUES ";
+        $consulta.="(".parent::getDni().", ".$this->getTelefono().");";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $agrega=true;
             }
             else{
-			    $this->setMensaje($base->getError());
-                $agrega=$base->getError();	
+			    parent::setMensaje($base->getError());
 		    }
         }	
         else{
-			$this->setMensaje($base->getError()); 	
+			parent::setMensaje($base->getError()); 	
         }
         return $agrega;   
     }
@@ -92,17 +100,9 @@ class Pasajero extends Persona{
     public function modificar(){
         $base=new BaseDatos();
         $modifica=false;
-        $consulta="UPDATE persona SET ";
-        if($nombre!=0){
-            $consulta.="nombre='".$nombre."' ";
-        }
-        if($nombre!=0 && $apellido!=0){
-            $consulta.=", ";
-        }
-        if($apellido!=0){
-            $consulta.="apellido='".$apellido."' ";
-        }
-        $consulta.="WHERE dni=".$dni.";";
+        $consulta="UPDATE pasajero SET ";
+        $consulta.="telefono='".$this->getTelefono()."' ";
+        $consulta.="WHERE dni=".parent::getDni().";";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $modifica=true;
@@ -114,10 +114,10 @@ class Pasajero extends Persona{
         else{
 			$this->setMensaje($base->getError()); 	
         }
-        return $consulta;
+        return $modifica;
     }
 
-    /** funcion que me permite eliminar datos de una persona, siempre que las pilíticas lo permitan
+    /** funcion que me permite eliminar datos de un pasajero, siempre que las pilíticas lo permitan
      * @param int $dni
      * @param string $nombre, $apellido
      * @return bool
@@ -125,7 +125,7 @@ class Pasajero extends Persona{
     public function eliminar($dni){
         $base=new BaseDatos();
         $elimina=false;
-        $consulta="DELETE FROM persona WHERE dni=".$dni;
+        $consulta="DELETE FROM pasajero WHERE dni=".$dni;
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $elimina=true;
