@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    let puntualidad=document.querySelectorAll('input[class="puntuaidad"]');
+    let puntualidad=document.querySelectorAll('input[class="puntualidad"]');
     let prolijidad=document.querySelectorAll('input[class="prolijidad"]');
     let rapidez=document.querySelectorAll('input[class="rapidez"]');
     let calidad=document.querySelectorAll('input[class="calidad"]');
@@ -53,8 +53,9 @@ document.addEventListener("DOMContentLoaded", function() {
             else{
                 campoMejoraCal.style.display="none";
             }
-        });
-        satisfaccion();
+            satisfaccion();
+        }
+    );
     });
 
     function sacarPromedioSatisfacion(){
