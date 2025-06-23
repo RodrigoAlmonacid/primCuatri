@@ -9,46 +9,32 @@ header {
 }
 
 
-.img1 {
-    display: flex;
-    top: 50px;
+#img1, #img2, #img3, #img4 {
     width: 150px;
     height: auto;
+    margin: 20px;
+}
+
+#img1 {
     float: right;
-    margin-left: 20px;
 
 }
 
-.img2 {
-    display: flex;
-    align-items: flex-start;
-    width: 150px;
-    height: auto;
+#img2 {
     float: left;
-    margin-left: 20px;
-    
+
 }
 
-.img3 {
-    display: flex;
-    top: 300px;
-    align-items: flex-end;
-    width: 150px;
-    height: auto;
+#img3 {
     float: right;
-    margin-left: 20px;
 
 }
 
-.img4 {
-    display: flex;
-    align-items: end;
-    width: 150px;
-    height: auto;
+#img4 {
     float: left;
-    margin-left: 20px;
 
 }
+
 
 p {
     text-align: justify;
@@ -100,4 +86,29 @@ body {
 
 .nav-links a:hover {
     color: #091cc7;
+}
+
+.valoracion {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 1rem;
+  background-color: #e8f6ff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #aaa;
+  font-family: Arial, sans-serif;
+}
+
+.estrellas .puntualidad {
+  margin-bottom: 1rem;
+}
+
+.estrellas label {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  margin-top: 0.5rem;
 }

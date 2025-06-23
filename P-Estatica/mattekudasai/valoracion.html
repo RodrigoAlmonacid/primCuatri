@@ -25,11 +25,94 @@
                 </div>
             </nav>    
         </header>
-        <p>
-            Seccionar el trabajo y que se pueda valorar por cada etapa/aspectos extra (puntualidad, presencia, etc)<br/>
-            Pueden ser estrellas o una escala de puntos<br/>
-            *Idea del profe: que dependiendo del puntaje el obrero sea premiado (por ejemplo, buena calificacion el lijado, el que lijó tiene un "vale")<br/>
-            Si la calificación es baja, que te pida "ayudanos a mejorar" con un campo para sugerencias<br/>
-        </p>
+      <section class="valoracion">
+    <h2>Dejanos tu valoración</h2>
+
+    <form id="formularioValoracion">
+        <ul>
+            <li>Puntualidad</li>
+                <div class="estrellas">
+                    <label><input type="radio" class="puntualidad" name="estPunt" value="1"> ⭐</label><br>
+                    <label><input type="radio" class="puntualidad" name="estPunt" value="2"> ⭐⭐</label><br>
+                    <label><input type="radio" class="puntualidad" name="estPunt" value="3"> ⭐⭐⭐</label><br>
+                    <label><input type="radio" class="puntualidad" name="estPunt" value="4"> ⭐⭐⭐⭐</label><br>
+                    <label><input type="radio" class="puntualidad" name="estPunt" value="5"> ⭐⭐⭐⭐⭐</label>
+                </div>
+
+                <div>
+                    <label for="comentario">Comentario:</label><br>
+                    <textarea id="comentarioPunt" rows="4" cols="50" placeholder="¿Qué te pareció la puntualidad en cada etapa del trabajo?"></textarea>
+                </div>
+
+            <li>Prolijidad</li>
+                <div class="estrellas">
+                    <label><input type="radio" class="prolijidad" name="estrella" value="1"> ⭐</label><br>
+                    <label><input type="radio" class="prolijidad" name="estrella" value="2"> ⭐⭐</label><br>
+                    <label><input type="radio" class="prolijidad" name="estrella" value="3"> ⭐⭐⭐</label><br>
+                    <label><input type="radio" class="prolijidad" name="estrella" value="4"> ⭐⭐⭐⭐</label><br>
+                    <label><input type="radio" class="prolijidad" name="estrella" value="5"> ⭐⭐⭐⭐⭐</label>
+                </div>
+
+                <div>
+                    <label for="comentario">Comentario:</label><br>
+                    <textarea id="comentarioProl" rows="4" cols="50" placeholder="¿Qué te pareció la prolijidad del trabajo?"></textarea>
+                </div>
+
+                <div id="campoMejoraProl" style="display: none;">
+                    <label for="mejora">¿Cómo podríamos mejorar?</label><br>
+                    <textarea class="textSugerencia" rows="3" cols="50" placeholder="Tu sugerencia nos ayuda..."></textarea>
+                </div>
+
+            <li>Rapidez</li>
+                <div class="estrellas">
+                    <label><input type="radio" class="rapidez" name="estrella" value="1"> ⭐</label><br>
+                    <label><input type="radio" class="rapidez" name="estrella" value="2"> ⭐⭐</label><br>
+                    <label><input type="radio" class="rapidez" name="estrella" value="3"> ⭐⭐⭐</label><br>
+                    <label><input type="radio" class="rapidez" name="estrella" value="4"> ⭐⭐⭐⭐</label><br>
+                    <label><input type="radio" class="rapidez" name="estrella" value="5"> ⭐⭐⭐⭐⭐</label>
+                </div>
+
+                <div>
+                    <label for="comentario">Comentario:</label><br>
+                    <textarea id="comentarioRap" rows="4" cols="50" placeholder="Contanos tu experiencia..."></textarea>
+                </div>
+
+                <div id="campoMejoraRap" style="display: none;">
+                    <label for="mejora">¿Cómo podríamos mejorar?</label><br>
+                    <textarea class="textSugerencia" rows="3" cols="50" placeholder="Tu sugerencia..."></textarea>
+                </div>
+
+            <li>Calidad de nuestros materiales</li>
+                <div class="estrellas">
+                    <label><input type="radio" class="calidad" name="estrella" value="1"> ⭐</label><br>
+                    <label><input type="radio" class="calidad" name="estrella" value="2"> ⭐⭐</label><br>
+                    <label><input type="radio" class="calidad" name="estrella" value="3"> ⭐⭐⭐</label><br>
+                    <label><input type="radio" class="calidad" name="estrella" value="4"> ⭐⭐⭐⭐</label><br>
+                    <label><input type="radio" class="calidad" name="estrella" value="5"> ⭐⭐⭐⭐⭐</label>
+                </div>
+
+                <div>
+                    <label for="comentario">Comentario:</label><br>
+                    <textarea id="comentarioCal" rows="4" cols="50" placeholder="¿Qué te pareció la calidad de los productos utilizados?"></textarea>
+                </div>
+
+                <div id="campoMejoraCal" style="display: none;">
+                    <label for="mejora">¿Cómo podríamos mejorar?</label><br>
+                    <textarea class="textSugerencia" rows="3" cols="50" placeholder="Tu sugerencia..."></textarea>
+                </div>
+
+            <li>Satisfacción</li>    
+                <div id="campoSatisfaccion" style="display: none;">
+                    <label id="satisfaccion"></label><br>
+                    <textarea class="textSugerencia" rows="3" cols="50" placeholder="¿Nos recomendarías?"></textarea>
+                </div>
+
+            <br>
+            <button type="submit">Enviar valoración</button>
+        </ul>
+    </form>
+  </section>
+
+  <script src="validaciones.js"></script>
     </body>
 </html>
