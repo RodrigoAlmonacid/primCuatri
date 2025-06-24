@@ -8,34 +8,6 @@ header {
     top: 0;
 }
 
-
-#img1, #img2, #img3, #img4 {
-    width: 150px;
-    height: auto;
-    margin: 20px;
-}
-
-#img1 {
-    float: right;
-
-}
-
-#img2 {
-    float: left;
-
-}
-
-#img3 {
-    float: right;
-
-}
-
-#img4 {
-    float: left;
-
-}
-
-
 p {
     text-align: justify;
 }
@@ -63,7 +35,7 @@ body {
 }
 
 .menu {
-    position: relative;
+    position:relative;
     top: 80px;
     right: 50px;
     margin-left: auto;
@@ -88,27 +60,4 @@ body {
     color: #091cc7;
 }
 
-.valoracion {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 1rem;
-  background-color: #e8f6ff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #aaa;
-  font-family: Arial, sans-serif;
-}
 
-.estrellas .puntualidad {
-  margin-bottom: 1rem;
-}
-
-.estrellas label {
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-textarea {
-  width: 100%;
-  resize: vertical;
-  margin-top: 0.5rem;
-}

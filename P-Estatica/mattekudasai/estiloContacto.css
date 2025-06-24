@@ -1,0 +1,84 @@
+form {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 1rem;
+    background-color: #e8f6ff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #aaa;
+    font-family: Arial, sans-serif;
+}
+
+h2{
+  text-align: center;
+
+}
+
+label {
+    text-align: center;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+select {
+  height: 36px;
+}
+
+textarea {
+  height: 100px;
+}
+
+.fecha-inputs, .hora-inputs {
+    margin-bottom: 12px;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    gap: 10px;
+    width: 100%;             
+}
+
+.hora-inputs {
+    max-width: 400px;        
+    margin: 0 auto 12px auto; 
+}
+
+.hora-inputs input,
+.fecha-inputs input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.redes-sociales {
+  position: fixed;
+  top: 40%;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1000;
+}
+
+.redes-sociales img {
+  width: 32px;              /* tamaño del ícono, ajustalo a gusto */
+  height: 32px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+input[type="submit"] {
+  background-color: #4caf50;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}

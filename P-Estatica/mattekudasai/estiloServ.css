@@ -1,0 +1,27 @@
+
+
+#img1, #img2, #img3, #img4 {
+    width: 150px;
+    height: auto;
+    margin: 20px;
+}
+
+#img1 {
+    float: right;
+
+}
+
+#img2 {
+    float: left;
+
+}
+
+#img3 {
+    float: right;
+
+}
+
+#img4 {
+    float: left;
+
+}

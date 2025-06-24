@@ -6,6 +6,8 @@
         <link rel="icon" href="MATTEKUDASAI1.png" type="image/x-ico">
         <title>Contactanos</title>
         <link rel="stylesheet" href="estiloMatte.css"/>
+        <link rel="stylesheet" href="estiloContacto.css"/>
+        <script src="validaContacto.js"></script>
     </head>
 
     <body>
@@ -25,11 +27,28 @@
                 </div>
             </nav>    
         </header>
-        <p>
-            Acá ponemos todos los medios de contacto<br/>
-            Podría pensar en la "burbuja" de whatsapp<br/>
-            Debería agregar un formulario para agendar una visita, que chequee fechas disponibles<br/>
-            Además, con javaScript que corrobore los datos ingresados sean correctos (dependiendo del campo)<br/>
-        </p>
+        <h2>Agendá tu visita</h2>
+        <form id="formularioVisita">
+            <label for="fecha">Ingresá una fecha</label>
+            <div class="fecha-inputs">
+                <input type="text" id="dia" name="fecha" placeholder="D&iacute;a" >  
+                <input type="text" id="mes" name="fecha" placeholder="Mes" > 
+                <input type="text" id="anio" name="fecha" placeholder="A&ntilde;o" >
+            </div>
+
+            <label for="hora">Ingresá un horario</label>
+            <div class="hora-inputs">
+                <input type="text" id="hora" name="hora" placeholder="HH" >
+                :
+                <input type="text" id="minuto" name="hora" placeholder="mm" >
+            </div>
+            <input type="submit" value="Agendar" onclick="return validaForm()" >
+        </form>
+        <div class="redes-sociales">
+            <a href="https://wa.me/2945596594"><img src="imagenes/whatsapp.png" alt="WhatsApp"></a>
+            <a href="https://www.youtube.com"><img src="imagenes/youtube.png" alt="YouTube"></a>
+            <a href="https://www.instagram.com/mattekudasai.servicios?igsh=MXY1N2pzZG5sMHp2MA=="><img src="imagenes/instagram.png" alt="Instagram"></a>
+            <a href="https://www.facebook.com/miguelarmando.almonacidmedina"><img src="imagenes/facebook.png" alt="Facebook"></a>
+        </div>
     </body>
 </html>
