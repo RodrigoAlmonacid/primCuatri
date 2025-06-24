@@ -1,29 +1,26 @@
-.valoracion {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 1rem;
-  background-color: #e8f6ff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #aaa;
-  font-family: Arial, sans-serif;
-}
+
 
 li{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: large;
-    font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: large;
+  font-weight: bold;
 }
 
-.estrellas .puntualidad {
+h2{
+  text-align: center;
+}
+
+.estrellas {
   margin-bottom: 1rem;
 }
 
 .estrellas label {
   font-size: 1.5rem;
   cursor: pointer;
-}
+} 
 
 textarea {
+  border-radius: 5px;
   width: 100%;
   resize: vertical;
   margin-top: 0.5rem;

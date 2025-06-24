@@ -3,15 +3,17 @@
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="icon" href="MATTEKUDASAI1.png" type="image/x-ico">
+        <link rel="icon" href="imagenes/matteIcono.ico" type="image/x-ico">
         <title>Cotizador</title>
         <link rel="stylesheet" href="estiloMatte.css"/>
+        <link rel="stylesheet" href="estiloCotiza.css"/>
+        <script src="validaCotiza.js"></script>
     </head>
 
     <body>
         <header>
             <div class="logo-container">
-                <img src="MATTEKUDASAI1.png" alt="Logo Mattekudasai" class="logo"/>
+                <img src="imagenes/MATTEKUDASAI1.png" alt="Logo Mattekudasai" class="logo"/>
                 <h1 class="titulo">Mattekudasai Servicios</h1>
             </div>
             <nav class="nav-links">
@@ -25,10 +27,75 @@
                 </div>
             </nav>    
         </header>
-        <p>
-            Calculadora de costos y materiales "funcionalidad javaScript"<br/>
-            Se podría pensar en distintos cálculos dependiendo del material de la pared<br/>
-            Que devuelva el costo de mano de obra y de cantidad de materiales<br/>
-        </p>
+        <div class="seccion">
+            <h2>Calculá tus materiales</h2>
+            <form id="cotizador">
+                <label for="lugar">Exposición:</label>
+                <select id="lugar" name="lugar">
+                    <option value=""></option>
+                    <option value="int">Interior</option>
+                    <option value="ext">Exterior</option>
+                </select>
+                <label for="material">Material a pintar:</label>
+                <select id="material" name="material">
+                    <option value=""></option>
+                    <option value="cem">Cemento</option>
+                    <option value="dur">Durlock</option>
+                    <option value="lad">Ladrillo a la vista</option>
+                    <option value="mad">Madera</option>
+                </select>
+                <label for="estado">Estado:</label>
+                <select id="estado" name="estado">
+                    <option value=""></option>
+                    <option value="pint">Pintado</option>
+                    <option value="noPint">Sin pintar</option>
+                </select>
+                <div id="selPintado" style="display: none;">
+                    <label for="tipoPint">Tipo de pintura:</label>
+                    <select id="tipoPint" name="tipoPint">
+                        <option value=""></option>
+                        <option value="latex">Látex</option>
+                        <option value="sintetico">Sintético</option>
+                        <option value="barniz">Barniz</option>
+                    </select>
+                </div>
+                <div id="selColor" style="display: none;">
+                    <label for="color">Color:</label>
+                    <select id="color" name="color">
+                        <option value=""></option>
+                        <option value="color">Color</option>
+                        <option value="blanco">Blanco</option>
+                    </select>
+                </div>
+                <div id="selNoPint" style="display: none;">    
+                    <label for="nueva">¿Es nueva?</label>
+                    <select name="nueva" id="nueva">
+                        <option value=""></option>
+                        <option value="si">Si</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <label for="medida">Ingresá las medidas</label>
+                    <input type="text" id="altura" name="medida" placeholder="altura" >
+                    <input type="text" id="base" name="medida" placeholder="base" >
+                <label for="abertura">¿Tiene aberturas?</label>
+                <select name="abertura" id="abertura">
+                    <option value=""></option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </select>
+                <div id="siAbertura" style="display: none;">
+                    <label for="medidaAbert">Ingresá las medidas</label>
+                        <input type="text" id="alturaAbert" name="medida" placeholder="altura" >
+                        <input type="text" id="baseAbert" name="medida" placeholder="base" >
+                </div>  
+                     <br> 
+                <input type="submit" value="Calcular">
+            </form>
+            <div id="resultado" style="display: block;">
+                
+                
+            </div>
+        </div>
     </body>
 </html>
