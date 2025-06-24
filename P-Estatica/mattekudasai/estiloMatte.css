@@ -76,7 +76,7 @@ body {
     color: #091cc7;
 }
 
-input[type="submit"] {
+input[type="submit"], input[type="button"]{
   margin-top: 10px;
   background-color: #4caf50;
   color: #ffffff;
@@ -86,7 +86,7 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover, input[type="button"]:hover {
   background-color: #091cc7;
 }
 

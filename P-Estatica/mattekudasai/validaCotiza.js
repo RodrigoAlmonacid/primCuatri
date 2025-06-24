@@ -46,6 +46,31 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     })
 
+    function manoObra(obra){
+        let baseMano=3100;
+        let manoObra=0;
+        if(lugar.value=='ext'){
+            baseMano=baseMano*1.3;
+        }
+        if(estado.value=='pint'){
+            let color=document.getElementById("color");
+            if((tipoPint.value=='latex' || tipoPint.value=='sintetico') && color.value=='color'){
+                baseMano=baseMano*1.2;
+            }
+        }
+        else if(estado.value=='noPint'){
+            let nueva=document.getElementById("nueva");
+            if(nueva.value=='si'){
+                baseMano=baseMano*1.4;
+            }
+            else if(nueva.value=='no'){
+                baseMano=baseMano*1.2;
+            }
+        }
+        manoObra=baseMano*obra;
+        return manoObra;
+    }
+
     function calculaArea(base, altura){
 
         let area=base*altura;
@@ -66,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function calculaPintura(){
+
         let pintura=calcularPared()/7;
         return pintura;
     }
@@ -73,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function(){
     form.addEventListener("submit", function(event) {
     event.preventDefault();
     let resultado=document.getElementById("resultado");
-    resultado.innerHTML='<h2>Resultado:<h2><br><h3>Mano de obra:<h3>'+calcularPared()+'<h3>cantidad de pintura:<h3>'+calculaPintura();
+    resultado.innerHTML='<h2>Resultado:<h2><br><h3>Mano de obra:<h3>'+manoObra(calcularPared())+'<h3>cantidad de pintura:<h3>'+calculaPintura();
 })
 });
 
