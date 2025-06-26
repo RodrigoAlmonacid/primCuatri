@@ -49,6 +49,10 @@ document.addEventListener("DOMContentLoaded", function(){
     function manoObra(obra){
         let baseMano=3100;
         let manoObra=0;
+        let pintBarniz=1;
+        let pintLatex=1
+        let pintSintetico=1;
+
         if(lugar.value=='ext'){
             baseMano=baseMano*1.3;
         }
@@ -56,20 +60,37 @@ document.addEventListener("DOMContentLoaded", function(){
             let color=document.getElementById("color");
             if((tipoPint.value=='latex' || tipoPint.value=='sintetico') && color.value=='color'){
                 baseMano=baseMano*1.2;
+                pintLatex=pintLatex*1.7;
+                pintSintetico=pintSintetico*1.7;
             }
         }
         else if(estado.value=='noPint'){
             let nueva=document.getElementById("nueva");
             if(nueva.value=='si'){
                 baseMano=baseMano*1.4;
+                pintLatex=pintLatex*1.9;
+                pintSintetico=pintSintetico*1.9;
             }
             else if(nueva.value=='no'){
                 baseMano=baseMano*1.2;
+                pintLatex=pintLatex*1.8;
+                pintSintetico=pintSintetico*1.8;
             }
         }
         manoObra=baseMano*obra;
-        return manoObra;
+        let cantidadPintura = calculaPintura(pintBarniz, pintLatex, pintSintetico);
+        let arreglo=[manoObra, cantidadPintura];
+        return arreglo;
     }
+
+    function calculaPintura(a, b, c){
+        let pinturalatex=b*calcularPared()/8;
+        let pintSintetico=c*calcularPared()/12;
+        let pintBarniz=a*calcularPared()/10;
+        return pinturalatex;
+    }
+
+
 
     function calculaArea(base, altura){
 
@@ -79,27 +100,24 @@ document.addEventListener("DOMContentLoaded", function(){
 
     function calcularPared(){
         let base=document.getElementById("base");
-        let altura=document.getElementById("altura");
-        let baseAbertura=document.getElementById("baseAbert");
-        let alturaAbertura=document.getElementById("alturaAbert");
         base=Number(base.value);
-        baseAbertura=Number(baseAbertura.value);
+        let altura=document.getElementById("altura");
         altura=Number(altura.value);
-        alturaAbertura=Number(alturaAbertura.value);
-        let pared=calculaArea(base,altura)-calculaArea(baseAbertura, alturaAbertura);
+        let pared=calculaArea(base,altura);
+        if(abertura.value=='si'){
+            let baseAbertura=document.getElementById("baseAbert");
+            baseAbertura=Number(baseAbertura.value);
+            let alturaAbertura=document.getElementById("alturaAbert");
+            alturaAbertura=Number(alturaAbertura.value);
+            pared= pared-calculaArea(baseAbertura, alturaAbertura);
+        }
         return pared;
-    }
-
-    function calculaPintura(){
-
-        let pintura=calcularPared()/7;
-        return pintura;
     }
     
     form.addEventListener("submit", function(event) {
     event.preventDefault();
     let resultado=document.getElementById("resultado");
-    resultado.innerHTML='<h2>Resultado:<h2><br><h3>Mano de obra:<h3>'+manoObra(calcularPared())+'<h3>cantidad de pintura:<h3>'+calculaPintura();
+    resultado.innerHTML='<h2>Resultado:<h2><br><h3>Mano de obra:<h3>'+manoObra(calcularPared())[0]+'<h3>cantidad de pintura:<h3>'+manoObra(calcularPared())[1];
 })
 });
 
