@@ -56,7 +56,7 @@ class Persona{
     /** funcion para buscar una persona en la base de datos (tabla persona)
      * 'dni' es la clave primaria en la tabla
      * @param int $dni
-     * @return array
+     * @return bool
      */
     public function buscar($dni){
         $base=new BaseDatos();
@@ -125,7 +125,7 @@ class Persona{
         $base=new BaseDatos();
         $modifica=false;
         $consulta="UPDATE persona SET ";
-        $consulta.="nombre='".$this->getNombre()."' ";
+        $consulta.="nombre='".$this->getNombre()."', ";
         $consulta.="apellido='".$this->getApellido()."' ";
         $consulta.="WHERE dni=".$this->getDni().";";
         if($base->iniciar()){

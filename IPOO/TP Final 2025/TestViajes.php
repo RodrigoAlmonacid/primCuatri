@@ -2,16 +2,17 @@
 include_once 'Persona.php';
 include_once 'Pasajero.php';
 include_once 'BaseDatos.php';
-//voy a buscar una persona
-$objPersona=new Persona();
-$objPasajero=new Pasajero();
-$cargar=$objPasajero->cargarPasajero(35384661, 'Florencia', 'Strumia de Almonacid', 29935384661);
-$insertarPasajero=$objPasajero->insertar();
-if($insertarPasajero){
-    $respuesta="Persona cargada con éxito\n";
+include_once 'Responsable.php';
+include_once 'Viaje.php';
+menu();
+function menu(){
+    echo "Ingrese el número de la opcion que desea:\n";
+    echo "**** MENU PRINCIPAL ****\n";
+    echo "1) Empresa\n2) Viajes\n3) Pasajeros\n4) Responsables\n";
+    echo "Su eleccion: ";
 }
-else $respuesta="Algo salió mal\n".$objPersona->getMensaje();
-$insertar=$objPasajero->__toString();
-echo "-----------\n".$respuesta."-----------\n";
-//echo $objPersona;
+$option=trim(fgets(STDIN));
+function opciones($option){
+    switch
+}
 ?>

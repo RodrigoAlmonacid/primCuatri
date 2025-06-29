@@ -1,4 +1,7 @@
 <?php
+include_once 'Empresa.php';
+include_once 'Responsable.php';
+include_once 'Pasajero.php';
 class Viaje{
     //Atributos
     private $idViaje;
@@ -7,18 +10,22 @@ class Viaje{
     private $cantMaxPasajeros;
     private $cantidadActualPasaj;
     private $objEmpresa;
+    private $objResponsable;
     private $colPasajeros;
+    private $mensaje;
 
     //metodo constructor
-    public function __construct($destino, $importe, $cantMaxPasajeros, $objEmpresa)
+    public function __construct()
     {
-        $this->destino=$destino;
-        $this->importe=$importe;
-        $this->cantMaxPasajeros=$cantMaxPasajeros;
+        $this->destino="";
+        $this->importe="";
+        $this->cantMaxPasajeros="";
         $this->cantidadActualPasaj=0;
-        $this->objEmpresa=$objEmpresa;
+        $this->objResponsable="";
+        $this->objEmpresa="";
         $this->colPasajeros=[];
         $this->idViaje=null;
+        $this->mensaje="";
     }
 
     //Métodos de acceso
@@ -57,6 +64,13 @@ class Viaje{
         $this->cantidadActualPasaj=$cantidadActualPasaj;
     }
 
+    public function getObjResponsable(){
+        return $this->objResponsable;
+    }
+    public function setObjResponsable($objResponsable){
+        $this->objResponsable=$objResponsable;
+    }
+
     public function getObjEmpresa(){
         return $this->objEmpresa;
     }
@@ -64,12 +78,18 @@ class Viaje{
         $this->objEmpresa=$objEmpresa;
     }
 
-
     public function getColPasajeros(){
         return $this->colPasajeros;
     }
     public function setColPasajeros($colPasajeros){
         $this->colPasajeros=$colPasajeros;
+    }
+
+    public function getMensaje(){
+        return $this->mensaje;
+    }
+    public function setMensaje($mensaje){
+        $this->mensaje=$mensaje;
     }
 
     //Método toString
@@ -79,6 +99,7 @@ class Viaje{
         $viaje.="Destino: ".$this->getDestino()."\n";
         $viaje.="Importe: $".$this->getImporte()."\n";
         $viaje.="Empresa: ".$this->getObjEmpresa();
+        $viaje.="Responsable: ".$this->getObjResponsable();
         $viaje.="Cantidad de plazas: ".$this->getCantMaxPasajeros()."\n";
         $viaje.="Pasajeros en el viaje: ".$this->getCantidadActualPasaj()."\n";
         $pasajeros=$this->getColPasajeros();
@@ -88,5 +109,161 @@ class Viaje{
         }
         return $viaje;
     }
+
+    /** funcion que me permite cargar datos de un viaje y setearlos en el objeto
+     * @param string $destino
+     * @param int $importe, $cantMaxPasajeros, $dniResponsable, $numEmpleado
+     */
+    function cargar($importe, $destino, $cantMaxPasajeros, $idEmpresa, $dniResponsable){
+        $this->setImporte($importe);
+        $this->setDestino($destino);
+        $this->setCantMaxPasajeros($cantMaxPasajeros);
+        $empresa=new Empresa();
+        $empresa=$empresa->datos($idEmpresa);
+        $this->setObjEmpresa($empresa);
+        $responsable=new Responsable();
+        $responsable=$responsable->datos($dniResponsable);
+        $this->setObjResponsable($responsable);
+    }
+
+    /** funcion para buscar un viaje en la base de datos (tabla viaje)
+     * 'idViaje' es la clave primaria en la tabla
+     * @param int $idViaje
+     * @return bool
+     */
+    public function buscar($idViaje){
+        $base=new BaseDatos();
+        $consulta='SELECT * FROM viaje WHERE idViaje='.$idViaje.";";
+        $busqueda=false;
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $row2=$base->Registro();
+                if($row2){
+                    $this->setIdViaje($idViaje);
+                    $this->setImporte($row2['importe']);
+                    $this->setDestino($row2['destino']);
+                    $this->setCantMaxPasajeros($row2['cantMaxPasajeros']);
+                    $empresa=new Empresa();
+                    $buscaEmpresa=$empresa->buscar($row2['idEmpresa']);
+                    $this->setObjEmpresa($empresa);
+                    $responsable=new Responsable();
+                    $buscaResp=$responsable->buscar($row2['dniResponsable']);
+                    $this->setObjResponsable($responsable);
+                    $this->pasajerosViaje($idViaje);
+                    $busqueda=true;
+                }				
+		 	}
+            else{
+		 		$this->setMensaje($base->getError());	
+			}
+		}	
+        else{
+			$this->setMensaje($base->getError()); 	
+		}		
+		return $busqueda;
+	}
+
+    /** funcion que me permite obtener los pasajeros de un viaje
+     * @param int $idViaje
+     */
+    public function pasajerosViaje($idViaje){
+        $base=new BaseDatos();
+        $consulta="SELECT dniPasajero FROM realiza WHERE idViaje=".$idViaje.";";
+        $colPasajeros=$this->getColPasajeros();
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $row2=$base->Registro();
+                while($row2 = $base->Registro()){
+                    $objPasajero=new Pasajero;
+                    $dniPasajero = $row2['dniPasajero'];
+                    if($objPasajero->buscar($dniPasajero)) {
+                    array_push($colPasajeros, $objPasajero);
+                    }
+                }
+            }
+        }
+        $this->setColPasajeros($colPasajeros);
+        $cantPasajeros=count($this->getColPasajeros());
+        $this->setCantidadActualPasaj($cantPasajeros);
+    }
+
+    /** funcion que me permite insertar un viaje
+     * @param string $destino
+     * @param int $importe, $cantMaxPasajeros, $idEmpresa, $dniResponsable, $numEmpleado
+     * @return bool
+     */
+    public function insertar(){
+        $agrega=false;
+        $base=new BaseDatos();
+        $consulta="INSERT INTO viaje(importe, destino, cantMaxPasajeros, idEmpresa, dniResponsable, numEmpleado) VALUES ";
+        $consulta.="(".$this->getImporte().", '".$this->getDestino()."', ".$this->getCantMaxPasajeros().", ";
+        $consulta.=$this->getObjEmpresa()['idEmpresa'].", ".$this->getObjResponsable()['dniResponsable'].", ".$this->getObjResponsable()['numEmpleado'].");";
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $agrega=true;
+            }
+            else{
+			    $this->setMensaje($base->getError());
+		    }
+        }	
+        else{
+			$this->setMensaje($base->getError()); 	
+        }
+        return $agrega;   
+    }
+
+    /** Funcion que me permite modificar datos de un viaje
+     * @param string $destino
+     * @param int $importe, $cantMaxPasajeros, $idEmpresa, $dniResponsable, $numEmpleado
+     * @return bool
+     */
+    public function modificar(){
+        $base=new BaseDatos();
+        $modifica=false;
+        $consulta="UPDATE viaje SET ";
+        $consulta.="importe=".$this->getImporte().", ";
+        $consulta.="destino='".$this->getDestino()."', ";
+        $consulta.="cantMaxPasajeros=".$this->getCantMaxPasajeros().", ";
+        $consulta.="idEmpresa=".$this->getObjEmpresa()['idEmpresa'].", ";
+        $consulta.="dniResponsable=".$this->getObjResponsable()['dniResponsable'].", ";
+        $consulta.="numEmpleado=".$this->getObjResponsable()['numEmpleado'];
+        $consulta.=" WHERE idViaje=".$this->getIdViaje().";";
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $modifica=true;
+            }
+            else{
+			    $this->setMensaje($base->getError());	
+		    }
+        }	
+        else{
+			$this->setMensaje($base->getError()); 	
+        }
+        return $modifica;
+    }
+
+    /** funcion que me permite eliminar datos de un viaje, siempre que las pilíticas lo permitan
+     * @param int $idViaje
+     * @return bool
+     */
+    public function eliminar($idViaje){
+        $base=new BaseDatos();
+        $elimina=false;
+        $consulta="DELETE FROM viaje WHERE idViaje=".$idViaje;
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $elimina=true;
+            }
+            else{
+			    $this->setMensaje($base->getError());	
+		    }
+        }	
+        else{
+			$this->setMensaje($base->getError()); 	
+        }
+        return $elimina;
+    }
+
+
 }
 ?>

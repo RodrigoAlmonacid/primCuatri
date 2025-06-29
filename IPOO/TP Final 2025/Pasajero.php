@@ -1,7 +1,9 @@
 <?php
+include_once 'Persona.php';
 class Pasajero extends Persona{
     //Atributos propios
     private $telefono;
+    private $mensajeError;
 
     //Método constructor
     public function __construct()
@@ -10,6 +12,7 @@ class Pasajero extends Persona{
         parent::__construct();
         //Inicio la variable instancia propia de la clase
         $this->telefono="";
+        $this->mensajeError="";
     }
 
     //Método de acceso
@@ -18,6 +21,14 @@ class Pasajero extends Persona{
     }
     public function setTelefono($tel){
         $this->telefono=$tel;
+    }
+
+    public function getMensajeError(){
+        return $this->mensajeError;
+    }
+    public function setMensajeError($mensaje)
+    {
+        $this->mensajeError=$mensaje;
     }
 
     //Método toString
@@ -47,7 +58,7 @@ class Pasajero extends Persona{
      */
     public function buscar($dni){
         $base=new BaseDatos();
-        $consulta='SELECT * FROM pasajero WHERE dni='.$dni;
+        $consulta='SELECT * FROM pasajero WHERE dniPasajero='.$dni;
         $busqueda=false;
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
@@ -59,14 +70,42 @@ class Pasajero extends Persona{
                 }				
 		 	}
             else{
-		 		$this->setMensaje($base->getError());	
+		 		parent::setMensaje($base->getError());	
 			}
 		}	
         else{
-			$this->setMensaje($base->getError()); 	
+			parent::setMensaje($base->getError()); 	
 		}		
 		return $busqueda;
 	}
+
+    /** funcion para treaer datos de un pasajero en la base de datos (tabla pasajero)
+     * 'dni' es la clave primaria en la tabla
+     * @param int $dni
+     * @return bool
+     */
+    public function datos($dni){
+        $base=new BaseDatos();
+        $consulta='SELECT * FROM pasajero WHERE dniPasajero='.$dni;
+        $pasajero=null;
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $row2=$base->Registro();
+                if($row2){
+                    parent::buscar($dni);
+                    $this->setTelefono($row2['telefono']);
+                    $busqueda=true;
+                }				
+		 	}
+            else{
+		 		parent::setMensaje($base->getError());	
+			}
+		}	
+        else{
+			parent::setMensaje($base->getError()); 	
+		}		
+		return $busqueda;
+    }
 
     /** funcion que me permite insertar un pasajero cuando este exista en la base de datos persona
      * @param int $dni, $telefono
@@ -79,15 +118,20 @@ class Pasajero extends Persona{
         $consulta="INSERT INTO pasajero(dniPasajero, telefono) VALUES ";
         $consulta.="(".parent::getDni().", ".$this->getTelefono().");";
         if($base->iniciar()){
-            if($base->Ejecutar($consulta)){
-                $agrega=true;
+            if(parent::buscar(parent::getDni())){
+                if($base->Ejecutar($consulta)){
+                    $agrega=true;
+                }
+                else{
+                    parent::setMensaje($base->getError());
+                }
             }
             else{
-			    parent::setMensaje($base->getError());
-		    }
+                $this->setMensajeError('No existe la persona');
+            }
         }	
         else{
-			parent::setMensaje($base->getError()); 	
+			parent::setMensaje($base->getError());	
         }
         return $agrega;   
     }
@@ -102,17 +146,17 @@ class Pasajero extends Persona{
         $modifica=false;
         $consulta="UPDATE pasajero SET ";
         $consulta.="telefono='".$this->getTelefono()."' ";
-        $consulta.="WHERE dni=".parent::getDni().";";
+        $consulta.="WHERE dniPasajero=".parent::getDni().";";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $modifica=true;
             }
             else{
-			    $this->setMensaje($base->getError());	
+			    parent::setMensaje($base->getError());	
 		    }
         }	
         else{
-			$this->setMensaje($base->getError()); 	
+			parent::setMensaje($base->getError()); 	
         }
         return $modifica;
     }
@@ -125,17 +169,17 @@ class Pasajero extends Persona{
     public function eliminar($dni){
         $base=new BaseDatos();
         $elimina=false;
-        $consulta="DELETE FROM pasajero WHERE dni=".$dni;
+        $consulta="DELETE FROM pasajero WHERE dniPasajero=".$dni;
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $elimina=true;
             }
             else{
-			    $this->setMensaje($base->getError());	
+			    parent::setMensaje($base->getError());	
 		    }
         }	
         else{
-			$this->setMensaje($base->getError()); 	
+			parent::setMensaje($base->getError()); 	
         }
         return $elimina;
     }
