@@ -1,4 +1,5 @@
 <?php
+include_once 'Viaje.php';
 class Empresa{
     //Atributos
     private $idEmpresa;
@@ -109,6 +110,28 @@ class Empresa{
 		return $datos;
 	}
 
+    /** funcion para listar todas las empresas
+     * @return array
+     * */
+    public function listar(){
+        $base=new BaseDatos();
+        $consulta="SELECT * FROM empresa;";
+        $arregloEmpresas=[];
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $row2=$base->Registro();
+                do{
+                    $objEmpresa=new Empresa();
+                    $idEmpresa = $row2['idEmpresa'];
+                    if($objEmpresa->buscar($idEmpresa)) {
+                    array_push($arregloEmpresas, $objEmpresa);
+                    }
+                }while($row2 = $base->Registro());
+            }
+        }
+        return $arregloEmpresas;
+    }
+
     /** funcion que me permite insertar una empresa
      * @param string $nombre, $direccion
      * @return bool
@@ -136,12 +159,12 @@ class Empresa{
      * @param string $nombre, $direccion
      * @return bool
      */
-    public function modificar(){
+    public function modificar($idEmpresa){
         $base=new BaseDatos();
         $modifica=false;
         $consulta="UPDATE empresa SET ";
         $consulta.="nombre='".$this->getNombre()."', ";
-        $consulta.="direccion='".$this->getDireccion()."' ";
+        $consulta.="direccion='".$this->getDireccion()."' WHERE idEmpresa=".$idEmpresa.";";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $modifica=true;
@@ -154,6 +177,30 @@ class Empresa{
 			$this->setMensaje($base->getError()); 	
         }
         return $modifica;
+    }
+
+    /** funcion que busca si una empresa tiene viajes asociados
+     * @param int
+     * @return array
+     */
+    public function buscaViaje($idEmpresa){
+        $base=new BaseDatos();
+        $encuentra=false;
+        $consulta="SELECT * FROM viaje v INNER JOIN empresa e ON v.idEmpresa=e.idEmpresa WHERE e.idEmpresa=".$idEmpresa.";";
+        $arregloViajes=[];
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $row2=$base->Registro();
+                do{
+                    $objViaje=new Viaje;
+                    $idViaje = $row2['idViaje'];
+                    if($objViaje->buscar($idViaje)) {
+                    array_push($arregloViajes, $objViaje);
+                    }
+                }while($row2 = $base->Registro());
+            }
+        }
+        return $arregloViajes;
     }
 
     /** funcion que me permite eliminar datos de una empresa, siempre que las pilíticas lo permitan

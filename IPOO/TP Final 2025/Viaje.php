@@ -1,5 +1,6 @@
 <?php
 include_once 'Empresa.php';
+include_once 'Persona.php';
 include_once 'Responsable.php';
 include_once 'Pasajero.php';
 class Viaje{
@@ -144,10 +145,10 @@ class Viaje{
                     $this->setDestino($row2['destino']);
                     $this->setCantMaxPasajeros($row2['cantMaxPasajeros']);
                     $empresa=new Empresa();
-                    $buscaEmpresa=$empresa->buscar($row2['idEmpresa']);
+                    $empresa->buscar($row2['idEmpresa']);
                     $this->setObjEmpresa($empresa);
                     $responsable=new Responsable();
-                    $buscaResp=$responsable->buscar($row2['dniResponsable']);
+                    $responsable->buscar($row2['dniResponsable']);
                     $this->setObjResponsable($responsable);
                     $this->pasajerosViaje($idViaje);
                     $busqueda=true;
@@ -170,21 +171,67 @@ class Viaje{
         $base=new BaseDatos();
         $consulta="SELECT dniPasajero FROM realiza WHERE idViaje=".$idViaje.";";
         $colPasajeros=$this->getColPasajeros();
-        if($base->iniciar()){
+        if($base->Iniciar()){
             if($base->Ejecutar($consulta)){
                 $row2=$base->Registro();
-                while($row2 = $base->Registro()){
-                    $objPasajero=new Pasajero;
-                    $dniPasajero = $row2['dniPasajero'];
-                    if($objPasajero->buscar($dniPasajero)) {
-                    array_push($colPasajeros, $objPasajero);
-                    }
+                if($row2){
+                    do{
+                        $objPasajero=new Pasajero;
+                        $dniPasajero = $row2['dniPasajero'];
+                        if($objPasajero->buscar($dniPasajero)) {
+                        array_push($colPasajeros, $objPasajero);
+                        }
+                    }while($row2 = $base->Registro());
                 }
             }
         }
         $this->setColPasajeros($colPasajeros);
         $cantPasajeros=count($this->getColPasajeros());
         $this->setCantidadActualPasaj($cantPasajeros);
+    }
+
+    /** funcion que me dice si un pasajero está en un viaje
+     * @param int $dni, $idViaje
+     * @return bool
+     */
+    public function pasajeroEnViaje($dni, $idViaje){
+        $encuentra=false;
+        $this->buscar($idViaje);
+        $coleccion=$this->getColPasajeros();
+        $cant=count($coleccion);
+        if($cant!=0){
+            $i=0;
+            do{
+                $dniPasajero=$coleccion[$i]->getDni();
+                if($dni==$dniPasajero){
+                    $encuentra=true;
+                }
+                $i++;
+            }while($i<$cant && !$encuentra);
+        }
+    return $encuentra;
+    }
+
+    /** funcion que me permite cargar un pasajero a un viaje
+     * @param int 
+     */
+    public function cargarPasajero($dni, $idViaje){
+        $base=new BaseDatos();
+        $agrega=false;
+        $consulta="INSERT INTO realiza(dniPasajero, idViaje) VALUES(".$dni.", ".$idViaje.");";
+        if($base->Iniciar()){
+            if($base->Ejecutar($consulta)){
+                $agrega=true;
+                $this->buscar($idViaje);
+            }
+            else{
+                $this->setMensaje($base->getError());
+            }
+        }
+        else{
+            $this->setMensaje($base->getError());
+        }
+        return $agrega;
     }
 
     /** funcion que me permite insertar un viaje
@@ -240,6 +287,28 @@ class Viaje{
 			$this->setMensaje($base->getError()); 	
         }
         return $modifica;
+    }
+
+    /** funcion para listar todos los viajes
+     * @return array
+     * */
+    public function listar(){
+        $base=new BaseDatos();
+        $consulta="SELECT * FROM viaje;";
+        $arregloViaje=[];
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $row2=$base->Registro();
+                do{
+                    $objViaje=new Viaje();
+                    $idViaje = $row2['idViaje'];
+                    if($objViaje->buscar($idViaje)) {
+                    array_push($arregloViaje, $objViaje);
+                    }
+                }while($row2 = $base->Registro());
+            }
+        }
+        return $arregloViaje;
     }
 
     /** funcion que me permite eliminar datos de un viaje, siempre que las pilíticas lo permitan
