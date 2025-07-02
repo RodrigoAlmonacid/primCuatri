@@ -75,7 +75,7 @@ class BaseDatos {
      */
     public function Iniciar() {
         $resp = false;
-        //mysqli_report(MYSQLI_REPORT_OFF);
+        mysqli_report(MYSQLI_REPORT_OFF);
         $conexion = mysqli_connect(
             $this->getHostName(),
             $this->getUsuario(),

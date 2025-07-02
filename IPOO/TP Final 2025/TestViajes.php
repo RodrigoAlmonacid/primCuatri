@@ -34,7 +34,8 @@ function opcionesMenu($option){
             break;
         case 4:
             echo "**** Responsables ****\n";
-            opcionesAccion();
+            $responsable=opcionesAccion();
+            opcionesResponsables($responsable);
             break;
         case 5:
             break;
@@ -86,7 +87,7 @@ function opcionesEmpresa($opcion){
                 $seguro=trim(fgets(STDIN));
                 if($seguro=="si"){
                     echo "Ingrese el nuevo nombre: ";
-                    $nombre=trim(fgets(STDIN));
+                    $nombre=ucwords(strtolower(trim(fgets(STDIN))));;
                     echo "Ingrese la nueva direccion: ";
                     $direccion=trim(fgets(STDIN));
                     $objEmpresa->cargar($nombre, $direccion);
@@ -112,7 +113,7 @@ function opcionesEmpresa($opcion){
         case 4:
             $objEmpresa=new Empresa();
             echo "Ingrese el nombre y la direccion de la nueva empresa.\nNombre: ";
-            $nombre=trim(fgets(STDIN));
+            $nombre=ucwords(strtolower(trim(fgets(STDIN))));;
             echo "Dirección: ";
             $direccion=trim(fgets(STDIN));
             $objEmpresa->cargar($nombre, $direccion);
@@ -197,7 +198,7 @@ function opcionesViaje($opcion){
             $busca=$objViaje->buscar($idViaje, true);
             if($busca){
                 echo "Recuerde que usted puede modificar: importe, destino, cantidad máxima de asientos, empresa, responsable y cargar pasajeros.\n";
-                echo "Usted modificará el siguiente viaje:\n".$objViaje;
+                echo "Datos del viaje: ".$objViaje;
                 echo "Si desea cargar pasajeros ingrese 1, si desea modificar los demás datos ingrese 2: ";
                 $eleccion=trim(fgets(STDIN));
                 if($eleccion==1){
@@ -212,11 +213,14 @@ function opcionesViaje($opcion){
                             if($lugaresDis>0){
                                 $agrega=$objViaje->cargarPasajero($dniPasajero); 
                                 if($agrega){
-                                echo "Pasajero agregado con éxito.\n";
+                                    echo "Pasajero agregado con éxito.\n";
                                 }
                                 else{
                                     echo "Hubo un error al cargar el pasajero, vuelva a intentar.\n";
                                 }
+                            }
+                            else{
+                                echo "No hay disponibilidad de asientos.\n";
                             }
                         }
                         else{
@@ -264,7 +268,7 @@ function opcionesViaje($opcion){
             break;
         case 4:
             $objViaje=new Viaje();
-            echo "Por favor ingrese los siguientes datos:\Importe: ";
+            echo "Por favor ingrese los siguientes datos:\nImporte: ";
             $importe=trim(fgets(STDIN));
             echo "Destino: ";
             $destino=trim(fgets(STDIN));
@@ -363,9 +367,9 @@ function opcionesPasajero($opcion){
             if($encuentra){
                 echo "El pasajero es:\n".$objPasajero;
                 echo "Recuerde que podrá modificar el teléfono, nombre y apellido.\nNombre: ";
-                $nombre=trim(fgets(STDIN));
+                $nombre=ucwords(strtolower(trim(fgets(STDIN))));;
                 echo "Apellido: ";
-                $apellido=trim(fgets(STDIN));
+                $apellido=ucwords(strtolower(trim(fgets(STDIN))));;
                 echo "Teléfono: ";
                 $telefono=trim(fgets(STDIN));
                 $objPasajero->cargar($dniPasajero, $nombre, $apellido, $telefono);
@@ -381,12 +385,67 @@ function opcionesPasajero($opcion){
             break;
         case 4:
             $objPasajero=new Pasajero();
-            
+            echo "Ingrese el DNI del pasajero que desea crear.\nDNI: ";
+            $dniPasajero=trim(fgets(STDIN));
+            $encuentra=$objPasajero->buscar($dniPasajero);
+            if(!$encuentra){
+                $objPersona=new Persona();
+                $buscaPersona=$objPersona->buscar($dniPasajero);
+                if(!$buscaPersona){
+                    echo "Ingrese Nombre: ";
+                    $nombre=ucwords(strtolower(trim(fgets(STDIN))));
+                    echo "Ingrese Apellido: ";
+                    $apellido=ucwords(strtolower(trim(fgets(STDIN))));
+                    echo "Ingrese teléfono: ";
+                    $telefono=trim(fgets(STDIN));
+                    $objPasajero->cargarPasajero($dniPasajero, $nombre, $apellido, $telefono);                    
+                    $pasajero=$objPasajero->insertar();
+                    if($pasajero){
+                        echo "Pasajero creado con éxito.\n";
+                    }
+                    else{
+                        echo "No hemos podido crear el pasajero.\n";
+                    }
+                }
+                else{
+                    echo "Hemos encontrado a la siguiente persona:\n".$objPersona."Ingrese el teléfono: ";
+                    $telefono=trim(fgets(STDIN));
+                    $objPasajero->setTelefono($telefono);
+                    $crea=$objPasajero->insertar();
+                    if($crea){
+                        echo "Pasajero creado con éxito.\n";
+                    }
+                    else{
+                        echo "Hubo un error al intentar crear el usuario.\n";
+                    }
+                }
+            }
+            else{
+                echo "El pasajero ya existe.\n";
+            }
             opcionesMenu(3);
             break;
         case 5:
             $objPasajero=new Pasajero();
-
+            echo "Ingrese el DNI de la persona que desea eliminar.\nDNI: ";
+            $dniPasajero=trim(fgets(STDIN));
+            $encuentra=$objPasajero->buscar($dniPasajero);
+            if($encuentra){
+                echo "Usted eliminará el siguiente pasajero:\n".$objPasajero."Está seguro? si/no: ";
+                $respuesta=strtolower(trim(fgets(STDIN)));
+                if($respuesta=="si"){
+                    $elimina=$objPasajero->eliminar();
+                    if($elimina){
+                        echo "Pasajero eliminado con éxito.\n";
+                    }
+                    else{
+                        echo "Hubo un error al intentar eliminar el usuario.\n";
+                    }
+                }
+            }
+            else{
+                echo "No hemos encontrado un pasajero con DNI = ".$dniPasajero."\n";
+            }
             opcionesMenu(3);
             break;
         case 6:
@@ -394,7 +453,129 @@ function opcionesPasajero($opcion){
             break;
         default:
             echo "Opción inválida.\n";
-            opcionesMenu(2);
+            opcionesMenu(3);
+            break;
+    }
+}
+//Accedo a responsables
+function opcionesResponsables($opcion){
+    switch($opcion){
+        case 1:
+            $objResponsable=new Responsable();
+            echo "Ingrese el dni del responsable que desea buscar: ";
+            $responsable=trim(fgets(STDIN));
+            $encuentra=$objResponsable->buscar($responsable);
+            if($encuentra){
+                echo $objResponsable;
+            }
+            else{
+                echo "no hemos encontrado al responsable.\n";
+            }
+            opcionesMenu(4);
+            break;
+        case 2:
+            $objResponsable=new Responsable();
+            echo "Los responsables cargados son:\n";
+            $responsables=$objResponsable->listar();
+            if(count($responsables)!=0){
+                foreach($responsables as $unResponsable){
+                    echo $unResponsable."**** ---------- ****\n";
+                }
+            }
+            else{
+                echo "No hay responsables cargados.\n";
+            }
+            opcionesMenu(4);
+            break;
+        case 3:
+            $objResponsable=new Responsable();
+            echo "Ingrese el DNI del responsable que desea editar: ";
+            $dniResponsable=trim(fgets(STDIN));
+            $encuentra=$objResponsable->buscar($dniResponsable);
+            if($encuentra){
+                echo "El responsable es:\n".$objResponsable;
+                echo "Recuerde que podrá modificar el número de licencia, nombre y apellido.\nNombre: ";
+                $nombre=ucwords(strtolower(trim(fgets(STDIN))));
+                echo "Apellido: ";
+                $apellido=ucwords(strtolower(trim(fgets(STDIN))));
+                echo "Número de licencia: ";
+                $numLicencia=trim(fgets(STDIN));
+                $objResponsable->cargar($dniResponsable, $nombre, $apellido, $numLicencia);
+                $modifica=$objResponsable->modificar();
+                if($modifica){
+                    echo "Responsable actualizado con éxito.\n";
+                }
+                else {
+                    echo "Algo salió mal al actualizar el responsable.\n";
+                }
+            }
+            opcionesMenu(4);
+            break;
+        case 4:
+            $objResponsable=new Responsable();
+            echo "Ingrese el DNI del responsable que desea crear.\nDNI: ";
+            $dniResponsable=trim(fgets(STDIN));
+            $encuentra=$objResponsable->buscar($dniResponsable);
+            if(!$encuentra){
+                $objPersona=new Persona();
+                $buscaPersona=$objPersona->buscar($dniResponsable);
+                if(!$buscaPersona){
+                    echo "Recuerde que el número de empleado se genera autoáticamente.\nIngrese Nombre: ";
+                    $nombre=ucwords(strtolower(trim(fgets(STDIN))));
+                    echo "Ingrese Apellido: ";
+                    $apellido=ucwords(strtolower(trim(fgets(STDIN))));
+                    echo "Ingrese número de licencia: ";
+                    $numLicencia=trim(fgets(STDIN));
+                    $objResponsable->cargarResponsable($dniResponsable, $nombre, $apellido, $numLicencia);                    
+                    $crea=$objResponsable->insertar();
+                }
+                else{
+                    echo "Hemos encontrado a la siguiente persona:\n".$objPersona."Ingrese el número de licencia: ";
+                    $numLicencia=trim(fgets(STDIN));
+                    $objResponsable->setNumLicencia($numLicencia);
+                    $crea=$objResponsable->insertar();
+                }
+                if($crea){
+                        echo "Responsable creado con éxito.\n";
+                    }
+                    else{
+                        echo "Hubo un error al intentar crear el responsable.\n";
+                    }
+            }
+            else{
+                echo "El responsable ya existe.\n";
+            }
+            opcionesMenu(4);
+            break;
+        case 5:
+            $objResponsable=new Responsable();
+            echo "Ingrese el DNI del responsable que desea eliminar.\nDNI: ";
+            $dniResponsable=trim(fgets(STDIN));
+            $encuentra=$objResponsable->buscar($dniResponsable);
+            if($encuentra){
+                echo "Usted eliminará el siguiente responsable:\n".$objResponsable."Está seguro? si/no: ";
+                $respuesta=strtolower(trim(fgets(STDIN)));
+                if($respuesta=="si"){
+                    $elimina=$objResponsable->eliminar();
+                    if($elimina){
+                        echo "Responsable eliminado con éxito.\n";
+                    }
+                    else{
+                        echo "Hubo un error al intentar eliminar el responsable.\n";
+                    }
+                }
+            }
+            else{
+                echo "No hemos encontrado un responsable con DNI = ".$dniResponsable."\n";
+            }
+            opcionesMenu(4);
+            break;
+        case 6:
+            menu();
+            break;
+        default:
+            echo "Opción inválida.\n";
+            opcionesMenu(3);
             break;
     }
 }

@@ -222,9 +222,9 @@ class Viaje{
      */
     public function cargarPasajero($dni){
         $lugaresDisp=$this->getCantMaxPasajeros()-$this->getCantidadActualPasaj();
+        $agrega=false;
         if($lugaresDisp>0){    
-            $base=new BaseDatos();
-            $agrega=false;
+            $base=new BaseDatos();    
             $consulta="INSERT INTO realiza(dniPasajero, idViaje) VALUES(".$dni.", ".$this->getIdViaje().");";
             if($base->Iniciar()){
                 if($base->Ejecutar($consulta)){

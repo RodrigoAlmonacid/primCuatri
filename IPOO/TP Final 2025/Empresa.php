@@ -190,13 +190,15 @@ class Empresa{
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $row2=$base->Registro();
-                do{
-                    $objViaje=new Viaje;
-                    $idViaje = $row2['idViaje'];
-                    if($objViaje->buscar($idViaje, true)) {
-                    array_push($arregloViajes, $objViaje);
-                    }
-                }while($row2 = $base->Registro());
+                if($row2){    
+                    do{
+                        $objViaje=new Viaje;
+                        $idViaje = $row2['idViaje'];
+                        if($objViaje->buscar($idViaje, true)) {
+                        array_push($arregloViajes, $objViaje);
+                        }
+                    }while($row2 = $base->Registro());
+                }
             }
         }
         return $arregloViajes;

@@ -49,7 +49,7 @@ class Pasajero extends Persona{
         //agrego el atributo propio
         $pasajero.="Teléfono de contacto: ".$this->getTelefono()."\n";
         $viajes=$this->getColViajes();
-        if(count($viajes)!=0){
+        /*if(count($viajes)!=0){
             $pasajero.= "El pasajero tiene los siguientes viajes asociados:\n";
             foreach($viajes as $unViaje){
                 $pasajero.=$unViaje;
@@ -58,7 +58,7 @@ class Pasajero extends Persona{
         }
         else{
             $pasajero.="El pasajero no está asociado a ningun viaje.\n";
-        }
+        }*/
         return $pasajero;
     }
 
@@ -79,7 +79,7 @@ class Pasajero extends Persona{
      */
     public function buscar($dni){
         $base=new BaseDatos();
-        $consulta='SELECT * FROM pasajero WHERE dniPasajero='.$dni;
+        $consulta="SELECT * FROM pasajero WHERE dniPasajero=".$dni;
         $busqueda=false;
         if($base->Iniciar()){
             if($base->Ejecutar($consulta)){
@@ -163,7 +163,7 @@ class Pasajero extends Persona{
      */
     public function datos($dni){
         $base=new BaseDatos();
-        $consulta='SELECT * FROM pasajero WHERE dniPasajero='.$dni;
+        $consulta="SELECT * FROM pasajero WHERE dniPasajero=".$dni;
         $pasajero=null;
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
@@ -175,11 +175,11 @@ class Pasajero extends Persona{
                 }				
 		 	}
             else{
-		 		parent::setMensaje($base->getError());	
+		 		$this->setMensajeError($base->getError());	
 			}
 		}	
         else{
-			parent::setMensaje($base->getError()); 	
+			$this->setMensajeError($base->getError()); 	
 		}		
 		return $busqueda;
     }
@@ -194,21 +194,30 @@ class Pasajero extends Persona{
         $base=new BaseDatos();
         $consulta="INSERT INTO pasajero(dniPasajero, telefono) VALUES ";
         $consulta.="(".parent::getDni().", ".$this->getTelefono().");";
+        $existePersona = false;
         if($base->iniciar()){
+            // Verificar si existe la persona
             if(parent::buscar(parent::getDni())){
+                $existePersona = true;
+            } 
+            else {
+                // No existe la persona, la creo
+                $persona=parent::insertar();
+                if($persona){
+                    $existePersona = true;
+                }
+            }
+            if($existePersona){
                 if($base->Ejecutar($consulta)){
                     $agrega=true;
-                }
-                else{
-                    parent::setMensaje($base->getError());
                 }
             }
             else{
                 $this->setMensajeError('No existe la persona');
-            }
+            }    
         }	
         else{
-			parent::setMensaje($base->getError());	
+			$this->setMensajeError($base->getError());	
         }
         return $agrega;   
     }
@@ -230,11 +239,11 @@ class Pasajero extends Persona{
                 parent::modificar();
             }
             else{
-			    parent::setMensaje($base->getError());	
+			    $this->setMensajeError($base->getError());	
 		    }
         }	
         else{
-			parent::setMensaje($base->getError()); 	
+			$this->setMensajeError($base->getError()); 	
         }
         return $modifica;
     }
@@ -244,20 +253,20 @@ class Pasajero extends Persona{
      * @param string $nombre, $apellido
      * @return bool
      */
-    public function eliminar($dni){
+    public function eliminar(){
         $base=new BaseDatos();
         $elimina=false;
-        $consulta="DELETE FROM pasajero WHERE dniPasajero=".$dni;
+        $consulta="DELETE FROM pasajero WHERE dniPasajero=".parent::getDni();
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $elimina=true;
             }
             else{
-			    parent::setMensaje($base->getError());	
+			    $this->setMensajeError($base->getError());	
 		    }
         }	
         else{
-			parent::setMensaje($base->getError()); 	
+			$this->setMensajeError($base->getError()); 	
         }
         return $elimina;
     }

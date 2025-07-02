@@ -60,7 +60,7 @@ class Persona{
      */
     public function buscar($dni){
         $base=new BaseDatos();
-        $consulta='SELECT * FROM persona WHERE dni='.$dni;
+        $consulta="SELECT * FROM persona WHERE dni=".$dni;
         $busqueda=false;
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
@@ -171,10 +171,10 @@ class Persona{
      * @param int $dni
      * @return bool
      */
-    public function eliminar($dni){
+    public function eliminar(){
         $base=new BaseDatos();
         $elimina=false;
-        $consulta="DELETE FROM persona WHERE dni=".$dni;
+        $consulta="DELETE FROM persona WHERE dni=".$this->getDni();
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $elimina=true;

@@ -4,6 +4,7 @@ class Responsable extends Persona{
     //Atributos propios
     private $numLicencia;
     private $numEmpleado;
+    private $mensajeError;
 
     //Método constructor
     public function __construct()
@@ -13,6 +14,7 @@ class Responsable extends Persona{
         //Inicio las variables instancia propias de la clase
         $this->numLicencia="";
         $this->numEmpleado=null;
+        $this->mensajeError="";
     }
 
     //Método de acceso
@@ -28,6 +30,14 @@ class Responsable extends Persona{
     }
     public function setNumEmpleado($numEmpleado){
         $this->numEmpleado=$numEmpleado;
+    }
+
+    public function getMensajeError(){
+        return $this->mensajeError;
+    }
+    public function setMensajeError($mensaje)
+    {
+        $this->mensajeError=$mensaje;
     }
 
     //Método toString
@@ -109,18 +119,32 @@ class Responsable extends Persona{
         $base=new BaseDatos();
         $consulta="INSERT INTO responsable(dniResponsable, numLicencia) VALUES ";
         $consulta.="(".parent::getDni().", ".$this->getNumLicencia().");";
+        $existePersona = false;
         if($base->iniciar()){
-            if($base->Ejecutar($consulta)){
-                $agrega=true;
+            // Verificar si existe la persona
+            if(parent::buscar(parent::getDni())){
+                $existePersona = true;
+            } 
+            else {
+                // No existe la persona, la creo
+                $persona=parent::insertar();
+                if($persona){
+                    $existePersona = true;
+                }
+            }
+            if($existePersona){
+                if($base->Ejecutar($consulta)){
+                    $agrega=true;
+                }
             }
             else{
-			    parent::setMensaje($base->getError());
-		    }
+                $this->setMensajeError('No existe la persona');
+            }    
         }	
         else{
-			parent::setMensaje($base->getError()); 	
+			$this->setMensajeError($base->getError());	
         }
-        return $agrega;   
+        return $agrega;
     }
 
     /** Funcion que me permite modificar datos de un responsable
@@ -132,8 +156,10 @@ class Responsable extends Persona{
         $base=new BaseDatos();
         $modifica=false;
         $consulta="UPDATE responsable SET ";
-        $consulta.="numLicencia='".$this->getNumLicencia()."' ";
-        $consulta.="WHERE dni=".parent::getDni().";";
+        $consulta.="numLicencia=".$this->getNumLicencia();
+        $consulta.=" WHERE dniResponsable=".parent::getDni();
+        $consulta.=" AND numEmpleado=".$this->getNumEmpleado().";";
+        parent::modificar();
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $modifica=true;
@@ -201,10 +227,10 @@ class Responsable extends Persona{
      * @param int $dni
      * @return bool
      */
-    public function eliminar($dni){
+    public function eliminar(){
         $base=new BaseDatos();
         $elimina=false;
-        $consulta="DELETE FROM responsable WHERE dniResponsable=".$dni.";";
+        $consulta="DELETE FROM responsable WHERE dniResponsable=".parent::getDni().";";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $elimina=true;
