@@ -75,7 +75,7 @@ class BaseDatos {
      */
     public function Iniciar() {
         $resp = false;
-        mysqli_report(MYSQLI_REPORT_OFF);
+        //mysqli_report(MYSQLI_REPORT_OFF);
         $conexion = mysqli_connect(
             $this->getHostName(),
             $this->getUsuario(),
@@ -155,6 +155,9 @@ class BaseDatos {
             $this->setError(mysqli_errno($this->conexion) . ": " . mysqli_error($this->conexion));
             return null;
         }
+    }
+    public function Cerrar(){
+        mysqli_close($this->conexion);
     }
 }
 ?>

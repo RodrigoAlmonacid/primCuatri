@@ -79,8 +79,33 @@ class Persona{
         else{
 			$this->setMensaje($base->getError()); 	
 		}		
+        $base->Cerrar();
 		return $busqueda;
 	}
+
+    /** funcion para listar todas las personas
+     * @return array
+     * */
+    public function listar(){
+        $base=new BaseDatos();
+        $consulta="SELECT * FROM persona;";
+        $arregloPersonas=[];
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $row2=$base->Registro();
+                if($row2){
+                    do{
+                        $objPersona=new Persona();
+                        $dni = $row2['dni'];
+                        if($objPersona->buscar($dni)) {
+                        array_push($arregloPersonas, $objPersona);
+                        }
+                    }while($row2 = $base->Registro());
+                }
+            }
+        }
+        return $arregloPersonas;
+    }
 
     /** funcion que me permite cargar datos de una nueva persona al objeto
      * @param int $dni

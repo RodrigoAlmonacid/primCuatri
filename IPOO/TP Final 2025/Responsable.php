@@ -148,6 +148,55 @@ class Responsable extends Persona{
         return $modifica;
     }
 
+    /** función que me trae los viajes de un responsable
+     * @param int $dniPasajero
+     * @return array
+     */
+    public function viajesResponsable($dniResponsable){
+        $base=new BaseDatos();
+        $consulta='SELECT v.idViaje FROM viaje v INNER JOIN responsable r ON v.dniResponsable=r.dniResponsable WHERE r.dniResponsable='.$dniResponsable.";";
+        $arregloViajes=[];
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $row2=$base->Registro();
+                if($row2){
+                    do{
+                        $objViaje=new Viaje;
+                        $idViaje = $row2['idViaje'];
+                        if($objViaje->buscar($idViaje, false)) {
+                        array_push($arregloViajes, $objViaje);
+                        }
+                    }while($row2 = $base->Registro());
+                }
+            }
+        }
+        return $arregloViajes;
+    }
+
+    /** funcion para listar todas las personas
+     * @return array
+     * */
+    public function listar(){
+        $base=new BaseDatos();
+        $consulta="SELECT * FROM responsable;";
+        $arregloResponsable=[];
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $row2=$base->Registro();
+                if($row2){
+                    do{
+                        $objResponsable=new Responsable();
+                        $dniResponsable = $row2['dniResponsable'];
+                        if($objResponsable->buscar($dniResponsable)) {
+                        array_push($arregloResponsable, $objResponsable);
+                        }
+                    }while($row2 = $base->Registro());
+                }
+            }
+        }
+        return $arregloResponsable;
+    }
+
     /** funcion que me permite eliminar datos de un responsable, siempre que las pilíticas lo permitan
      * @param int $dni
      * @return bool

@@ -102,11 +102,13 @@ class Viaje{
         $viaje.="Empresa: ".$this->getObjEmpresa();
         $viaje.="Responsable: ".$this->getObjResponsable();
         $viaje.="Cantidad de plazas: ".$this->getCantMaxPasajeros()."\n";
-        $viaje.="Pasajeros en el viaje: ".$this->getCantidadActualPasaj()."\n";
         $pasajeros=$this->getColPasajeros();
-        foreach($pasajeros as $unPasajero){
-            $viaje.=$unPasajero;
-            $viaje.="----------------------------\n";
+        if(count($pasajeros)>0){
+            $viaje.="Pasajeros en el viaje: ".$this->getCantidadActualPasaj()."\n";
+            foreach($pasajeros as $unPasajero){
+                $viaje.=$unPasajero;
+                $viaje.="----------------------------\n";
+            }
         }
         return $viaje;
     }
@@ -132,7 +134,7 @@ class Viaje{
      * @param int $idViaje
      * @return bool
      */
-    public function buscar($idViaje){
+    public function buscar($idViaje, $incluirLista){
         $base=new BaseDatos();
         $consulta='SELECT * FROM viaje WHERE idViaje='.$idViaje.";";
         $busqueda=false;
@@ -150,7 +152,9 @@ class Viaje{
                     $responsable=new Responsable();
                     $responsable->buscar($row2['dniResponsable']);
                     $this->setObjResponsable($responsable);
-                    $this->pasajerosViaje($idViaje);
+                    if($incluirLista){
+                        $this->pasajerosViaje($idViaje);
+                    }
                     $busqueda=true;
                 }				
 		 	}
@@ -161,6 +165,7 @@ class Viaje{
         else{
 			$this->setMensaje($base->getError()); 	
 		}		
+        $base->Cerrar();
 		return $busqueda;
 	}
 
@@ -194,9 +199,9 @@ class Viaje{
      * @param int $dni, $idViaje
      * @return bool
      */
-    public function pasajeroEnViaje($dni, $idViaje){
+    public function pasajeroEnViaje($dni){
         $encuentra=false;
-        $this->buscar($idViaje);
+        $this->buscar($this->getIdViaje(), true);
         $coleccion=$this->getColPasajeros();
         $cant=count($coleccion);
         if($cant!=0){
@@ -215,21 +220,24 @@ class Viaje{
     /** funcion que me permite cargar un pasajero a un viaje
      * @param int 
      */
-    public function cargarPasajero($dni, $idViaje){
-        $base=new BaseDatos();
-        $agrega=false;
-        $consulta="INSERT INTO realiza(dniPasajero, idViaje) VALUES(".$dni.", ".$idViaje.");";
-        if($base->Iniciar()){
-            if($base->Ejecutar($consulta)){
-                $agrega=true;
-                $this->buscar($idViaje);
+    public function cargarPasajero($dni){
+        $lugaresDisp=$this->getCantMaxPasajeros()-$this->getCantidadActualPasaj();
+        if($lugaresDisp>0){    
+            $base=new BaseDatos();
+            $agrega=false;
+            $consulta="INSERT INTO realiza(dniPasajero, idViaje) VALUES(".$dni.", ".$this->getIdViaje().");";
+            if($base->Iniciar()){
+                if($base->Ejecutar($consulta)){
+                    $agrega=true;
+                    $this->buscar($this->getIdViaje(), true);
+                }
+                else{
+                    $this->setMensaje($base->getError());
+                }
             }
             else{
                 $this->setMensaje($base->getError());
             }
-        }
-        else{
-            $this->setMensaje($base->getError());
         }
         return $agrega;
     }
@@ -302,7 +310,7 @@ class Viaje{
                 do{
                     $objViaje=new Viaje();
                     $idViaje = $row2['idViaje'];
-                    if($objViaje->buscar($idViaje)) {
+                    if($objViaje->buscar($idViaje, true)) {
                     array_push($arregloViaje, $objViaje);
                     }
                 }while($row2 = $base->Registro());
@@ -315,10 +323,10 @@ class Viaje{
      * @param int $idViaje
      * @return bool
      */
-    public function eliminar($idViaje){
+    public function eliminar(){
         $base=new BaseDatos();
         $elimina=false;
-        $consulta="DELETE FROM viaje WHERE idViaje=".$idViaje;
+        $consulta="DELETE FROM viaje WHERE idViaje=".$this->getIdViaje();
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $elimina=true;

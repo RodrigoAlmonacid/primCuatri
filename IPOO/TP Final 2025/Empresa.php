@@ -185,7 +185,6 @@ class Empresa{
      */
     public function buscaViaje($idEmpresa){
         $base=new BaseDatos();
-        $encuentra=false;
         $consulta="SELECT * FROM viaje v INNER JOIN empresa e ON v.idEmpresa=e.idEmpresa WHERE e.idEmpresa=".$idEmpresa.";";
         $arregloViajes=[];
         if($base->iniciar()){
@@ -194,7 +193,7 @@ class Empresa{
                 do{
                     $objViaje=new Viaje;
                     $idViaje = $row2['idViaje'];
-                    if($objViaje->buscar($idViaje)) {
+                    if($objViaje->buscar($idViaje, true)) {
                     array_push($arregloViajes, $objViaje);
                     }
                 }while($row2 = $base->Registro());
