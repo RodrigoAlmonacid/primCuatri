@@ -281,15 +281,16 @@ function opcionesViaje($opcion){
             $objEmpresa=new Empresa();
             $encuentraEmpresa=$objEmpresa->buscar($empresa);
             if(!$encuentraEmpresa){
-                echo "No existe una empresa con ese ID.\n";
+                echo "No existe una empresa con ID = ".$empresa.".\n";
             }
             $objResponsable=new Responsable();
             $encuentraResponsable=$objResponsable->buscar($dniResponsable);
             if(!$encuentraResponsable){
-                echo "No existe un responsable con ese dni.\n";
+                echo "No existe un responsable con DNI N° ".$dniResponsable.".\n";
             }
             if($encuentraEmpresa && $encuentraResponsable){
-                $objViaje->cargar($importe, $destino, $cantAsientos, $empresa, $dniResponsable, $objResponsable->getNumEmpleado());
+                echo $objEmpresa;
+                $objViaje->cargar($importe, $destino, $cantAsientos, $objEmpresa, $objResponsable);
                 $crea=$objViaje->insertar();
                 if($crea){
                     echo "Viaje creado con éxito.\n";

@@ -10,8 +10,8 @@ class Viaje{
     private $importe;
     private $cantMaxPasajeros;
     private $cantidadActualPasaj;
-    private $objEmpresa;
-    private $objResponsable;
+    private Empresa $objEmpresa;
+    private Responsable $objResponsable;
     private $colPasajeros;
     private $mensaje;
 
@@ -22,8 +22,6 @@ class Viaje{
         $this->importe="";
         $this->cantMaxPasajeros="";
         $this->cantidadActualPasaj=0;
-        $this->objResponsable="";
-        $this->objEmpresa="";
         $this->colPasajeros=[];
         $this->idViaje=null;
         $this->mensaje="";
@@ -105,8 +103,9 @@ class Viaje{
         $pasajeros=$this->getColPasajeros();
         if(count($pasajeros)>0){
             $viaje.="Pasajeros en el viaje: ".$this->getCantidadActualPasaj()."\n";
+            $viaje.="----------------------------\n";
             foreach($pasajeros as $unPasajero){
-                $viaje.=$unPasajero;
+                $viaje.=$unPasajero->getNombre()." ".$unPasajero->getApellido().", DNI: ".$unPasajero->getDni().".\n";
                 $viaje.="----------------------------\n";
             }
         }
@@ -117,16 +116,12 @@ class Viaje{
      * @param string $destino
      * @param int $importe, $cantMaxPasajeros, $dniResponsable, $numEmpleado
      */
-    function cargar($importe, $destino, $cantMaxPasajeros, $idEmpresa, $dniResponsable){
+    function cargar($importe, $destino, $cantMaxPasajeros, $objEmpresa, $objResponsable){
         $this->setImporte($importe);
         $this->setDestino($destino);
         $this->setCantMaxPasajeros($cantMaxPasajeros);
-        $empresa=new Empresa();
-        $empresa=$empresa->datos($idEmpresa);
-        $this->setObjEmpresa($empresa);
-        $responsable=new Responsable();
-        $responsable=$responsable->datos($dniResponsable);
-        $this->setObjResponsable($responsable);
+        $this->setObjEmpresa($objEmpresa);
+        $this->setObjResponsable($objResponsable);
     }
 
     /** funcion para buscar un viaje en la base de datos (tabla viaje)
@@ -135,6 +130,8 @@ class Viaje{
      * @return bool
      */
     public function buscar($idViaje, $incluirLista){
+        //$incluir lista me sirve para que no me traiga la lista de pasajeros siempre
+        //Por ejemplo cuando quiero saber que viajes tiene un pasajero, no quiero saber con quienes viaja
         $base=new BaseDatos();
         $consulta='SELECT * FROM viaje WHERE idViaje='.$idViaje.";";
         $busqueda=false;
@@ -248,12 +245,14 @@ class Viaje{
      * @return bool
      */
     public function insertar(){
+        $empresa=$this->getObjEmpresa();
+        $responsable=$this->getObjResponsable();
         $agrega=false;
         $base=new BaseDatos();
         $consulta="INSERT INTO viaje(importe, destino, cantMaxPasajeros, idEmpresa, dniResponsable, numEmpleado) VALUES ";
         $consulta.="(".$this->getImporte().", '".$this->getDestino()."', ".$this->getCantMaxPasajeros().", ";
-        $consulta.=$this->getObjEmpresa()['idEmpresa'].", ".$this->getObjResponsable()['dniResponsable'].", ".$this->getObjResponsable()['numEmpleado'].");";
-        if($base->iniciar()){
+        $consulta.=$empresa->getIdEmpresa().", ".$responsable->getDni().", ".$responsable->getNumEmpleado().");";
+        if($base->iniciar()){     
             if($base->Ejecutar($consulta)){
                 $agrega=true;
             }
@@ -273,15 +272,17 @@ class Viaje{
      * @return bool
      */
     public function modificar(){
+        $empresa=$this->getObjEmpresa();
+        $responsable=$this->getObjResponsable();
         $base=new BaseDatos();
         $modifica=false;
         $consulta="UPDATE viaje SET ";
         $consulta.="importe=".$this->getImporte().", ";
         $consulta.="destino='".$this->getDestino()."', ";
         $consulta.="cantMaxPasajeros=".$this->getCantMaxPasajeros().", ";
-        $consulta.="idEmpresa=".$this->getObjEmpresa()['idEmpresa'].", ";
-        $consulta.="dniResponsable=".$this->getObjResponsable()['dniResponsable'].", ";
-        $consulta.="numEmpleado=".$this->getObjResponsable()['numEmpleado'];
+        $consulta.="idEmpresa=".$empresa->getIdEmpresa().", ";
+        $consulta.="dniResponsable=".$responsable->getDni().", ";
+        $consulta.="numEmpleado=".$responsable->getNumEmpleado();
         $consulta.=" WHERE idViaje=".$this->getIdViaje().";";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){

@@ -49,7 +49,7 @@ class Pasajero extends Persona{
         //agrego el atributo propio
         $pasajero.="Teléfono de contacto: ".$this->getTelefono()."\n";
         $viajes=$this->getColViajes();
-        /*if(count($viajes)!=0){
+        if(count($viajes)!=0){
             $pasajero.= "El pasajero tiene los siguientes viajes asociados:\n";
             foreach($viajes as $unViaje){
                 $pasajero.=$unViaje;
@@ -58,7 +58,7 @@ class Pasajero extends Persona{
         }
         else{
             $pasajero.="El pasajero no está asociado a ningun viaje.\n";
-        }*/
+        }
         return $pasajero;
     }
 
@@ -161,7 +161,7 @@ class Pasajero extends Persona{
      * @param int $dni
      * @return bool
      */
-    public function datos($dni){
+/*    public function datos($dni){
         $base=new BaseDatos();
         $consulta="SELECT * FROM pasajero WHERE dniPasajero=".$dni;
         $pasajero=null;
@@ -183,7 +183,7 @@ class Pasajero extends Persona{
 		}		
 		return $busqueda;
     }
-
+*/
     /** funcion que me permite insertar un pasajero cuando este exista en la base de datos persona
      * @param int $dni, $telefono
      * @param strig $nombre, $apellido
