@@ -46,12 +46,13 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     })
 
+        var baseMano=3100;
+        var valorManoObra=0;
+        var pintBarniz=1;
+        var pintLatex=1
+        var pintSintetico=1;
     function manoObra(obra){
-        let baseMano=3100;
-        let manoObra=0;
-        let pintBarniz=1;
-        let pintLatex=1
-        let pintSintetico=1;
+        
 
         if(lugar.value=='ext'){
             baseMano=baseMano*1.3;
@@ -77,9 +78,9 @@ document.addEventListener("DOMContentLoaded", function(){
                 pintSintetico=pintSintetico*1.8;
             }
         }
-        manoObra=baseMano*obra;
+        valorManoObra=baseMano*obra;
         let cantidadPintura = calculaPintura(pintBarniz, pintLatex, pintSintetico);
-        let arreglo=[manoObra, cantidadPintura];
+        let arreglo=[valorManoObra, cantidadPintura];
         return arreglo;
     }
 
@@ -118,6 +119,11 @@ document.addEventListener("DOMContentLoaded", function(){
     event.preventDefault();
     let resultado=document.getElementById("resultado");
     resultado.innerHTML='<h2>Resultado:<h2><br><h3>Mano de obra:<h3>'+manoObra(calcularPared())[0]+'<h3>cantidad de pintura:<h3>'+manoObra(calcularPared())[1];
+    baseMano=3100;
+    valorManoObra=0;
+    pintBarniz=1;
+    pintLatex=1
+    pintSintetico=1;
 })
 });
 
