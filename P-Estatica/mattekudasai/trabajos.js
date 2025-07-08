@@ -17,7 +17,7 @@ let indice2 = 0;
 let indice3 = 0;
 let indice4 = 0;
 
-const imagenes1 = ["imagenes/trabajos/arreglos/2.jpg", 
+const imagenes1 = ["https://drive.google.com/file/d/1ZKibDSl8CmmK3WssqiRqgyDsp6tHdhNm/view?usp=drive_link", 
     "imagenes/trabajos/arreglos/3.jpg", "imagenes/trabajos/arreglos/4.jpg", 
     "imagenes/trabajos/arreglos/5.jpg", "imagenes/trabajos/arreglos/6.jpg", 
     "imagenes/trabajos/arreglos/7.jpg", "imagenes/trabajos/arreglos/8.jpg", 
