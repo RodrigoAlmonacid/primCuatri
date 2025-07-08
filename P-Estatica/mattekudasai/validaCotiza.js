@@ -52,14 +52,16 @@ document.addEventListener("DOMContentLoaded", function(){
         var pintLatex=1
         var pintSintetico=1;
     function manoObra(obra){
-        
-
         if(lugar.value=='ext'){
+            //aumenta la mano de obra un 30% si es exterior
             baseMano=baseMano*1.3;
         }
         if(estado.value=='pint'){
             let color=document.getElementById("color");
             if((tipoPint.value=='latex' || tipoPint.value=='sintetico') && color.value=='color'){
+                //si la pared ya estaba pintada: 
+                // aumenta un 20% la mano de obra
+                //aumenta un 20% la cantidad de pintura 
                 baseMano=baseMano*1.2;
                 pintLatex=pintLatex*1.7;
                 pintSintetico=pintSintetico*1.7;
@@ -68,11 +70,17 @@ document.addEventListener("DOMContentLoaded", function(){
         else if(estado.value=='noPint'){
             let nueva=document.getElementById("nueva");
             if(nueva.value=='si'){
+                //Si la pared no estaba pintada y es nueva:
+                //aumenta 40% la mano de obra
+                //aumenta 90% la cantidad de pintura
                 baseMano=baseMano*1.4;
                 pintLatex=pintLatex*1.9;
                 pintSintetico=pintSintetico*1.9;
             }
             else if(nueva.value=='no'){
+                //Si la pared no estaba pintada y es vieja:
+                //aumenta 20% la mano de obra
+                //aumenta 80% la cantidad de pintura
                 baseMano=baseMano*1.2;
                 pintLatex=pintLatex*1.8;
                 pintSintetico=pintSintetico*1.8;
@@ -85,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function calculaPintura(a, b, c){
+        let arregloPintura=[];
         let pinturalatex=b*calcularPared()/8;
         let pintSintetico=c*calcularPared()/12;
         let pintBarniz=a*calcularPared()/10;
@@ -118,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function(){
     form.addEventListener("submit", function(event) {
     event.preventDefault();
     let resultado=document.getElementById("resultado");
-    resultado.innerHTML='<h2>Resultado:<h2><br><h3>Mano de obra:<h3>'+manoObra(calcularPared())[0]+'<h3>cantidad de pintura:<h3>'+manoObra(calcularPared())[1];
+    resultado.innerHTML='<h2>Resultado:<h2><br><h3>Mano de obra:<h3>'+manoObra(calcularPared())[0]+'<h3>cantidad de pintura:<h3>'+manoObra(calcularPared())[1].toFixed(2);
     baseMano=3100;
     valorManoObra=0;
     pintBarniz=1;

@@ -1,4 +1,4 @@
-#carrusel1, #carrusel2, #carrusel3, #carrusel4 {
+#carrusel1, #carrusel2, #carrusel3, #carrusel4, #carrusel5 {
       width: 400px;
       height: auto;
       margin: auto;
@@ -6,7 +6,14 @@
       position: relative;
     }
 
-    #carrusel1 img, #carrusel2 img, #carrusel3 img, #carrusel4 img {
+    label {
+    text-align: center;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+    #carrusel1 img, #carrusel2 img, #carrusel3 img, #carrusel4 img, #carrusel5 img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -23,10 +30,10 @@
       cursor: pointer;
     }
 
-    #anterior1, #anterior2, #anterior3, #anterior4 {
+    #anterior1, #anterior2, #anterior3, #anterior4, #anterior5 {
       left: 0;
     }
 
-    #siguiente1, #siguiente2, #siguiente3, #siguiente4 {
+    #siguiente1, #siguiente2, #siguiente3, #siguiente4, #siguiente5 {
       right: 0;
     }
