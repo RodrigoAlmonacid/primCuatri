@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function(){
     let tipoPint=document.getElementById("tipoPint");
     let abertura=document.getElementById("abertura");
     let form=document.getElementById("cotizador");
+    let calcular=document.getElementById("calcular");
 
     estado.addEventListener("change", function(){
         let selecEstado=estado.value;
@@ -124,10 +125,10 @@ document.addEventListener("DOMContentLoaded", function(){
         return pared;
     }
     
-    form.addEventListener("submit", function(event) {
-    event.preventDefault();
+    calcular.addEventListener("click", function() {
+ 
     let resultado=document.getElementById("resultado");
-    resultado.innerHTML='<h2>Resultado:<h2><br><h3>Mano de obra:<h3>'+manoObra(calcularPared())[0]+'<h3>cantidad de pintura:<h3>'+manoObra(calcularPared())[1].toFixed(2);
+    resultado.innerHTML='<h2>Resultado:<h2><br><h3>Mano de obra:<h3>'+manoObra(calcularPared())[0].toFixed(2)+'<h3>cantidad de pintura:<h3>'+manoObra(calcularPared())[1].toFixed(2);
     baseMano=3100;
     valorManoObra=0;
     pintBarniz=1;

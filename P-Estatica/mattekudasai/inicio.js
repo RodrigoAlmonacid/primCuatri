@@ -1,26 +1,31 @@
+document.addEventListener("DOMContentLoaded", function(){
+    const color1=document.getElementById('color1');
+    const color2=document.getElementById('color2');
+    const hex1=document.getElementById('hex1');
+    const hex2=document.getElementById('hex2');
+    const divComb=document.getElementById('divPaleta');
+    const fondo=document.body;
+    let combinar=document.getElementById('combinar');//combinar es el id del input
+    let limpiar=document.getElementById('limpiar');//limpiar es el id del input
 
-    const color1 = document.getElementById('color1');
-    const color2 = document.getElementById('color2');
-    const hex1 = document.getElementById('hex1');
-    const hex2 = document.getElementById('hex2');
-    const box1 = document.getElementById('box1');
-    const box2 = document.getElementById('box2');
-    const combinacion = document.getElementById('combinacion');
 
     function actualizarColores() {
-      const c1 = color1.value;
-      const c2 = color2.value;
-
-      hex1.textContent = c1;
-      hex2.textContent = c2;
-      box1.style.backgroundColor = c1;
-      box2.style.backgroundColor = c2;
-
-      // Vista combinada como degradado
-      combinacion.style.background = `linear-gradient(to right, ${c1}, ${c2})`;
+      const colorDiv = color1.value;
+      const colorFondo = color2.value;
+      hex1.textContent = colorDiv;
+      hex2.textContent = colorFondo;
+      divComb.style.backgroundColor = colorDiv;
+      fondo.style.backgroundColor = colorFondo;
     }
 
-    color1.addEventListener('input', actualizarColores);
-    color2.addEventListener('input', actualizarColores);
+    function limpiarColores() {
+      divComb.style.backgroundColor = "#e8f6ff";
+      fondo.style.backgroundColor = "#7fffd4";
+    }
 
-    
+    combinar.addEventListener('click', actualizarColores);
+    limpiar.addEventListener('click', limpiarColores);
+});
+
+
+     
