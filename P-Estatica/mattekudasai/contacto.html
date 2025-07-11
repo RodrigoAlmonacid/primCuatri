@@ -30,6 +30,12 @@
         <div class="seccion">
         <h2>Agendá tu visita</h2>
         <form id="formularioVisita">
+            <label for="datos">Tus Datos</label>
+            <div class="datos-inputs">
+                <input type="text" id="nombre" name="datos" placeholder="Nombre" required>
+                <input type="text" id="apellido" name="datos" placeholder="Apellido" required><br>
+                <input type="text" id="telefono" name="datos" placeholder="Tel&eacute;fono" required>
+            </div>
             <label for="fecha">Ingresá una fecha</label>
             <div class="fecha-inputs">
                 <input type="text" id="dia" name="fecha" placeholder="D&iacute;a" >  
@@ -43,7 +49,7 @@
                 :
                 <input type="text" id="minuto" name="hora" placeholder="mm" >
             </div>
-            <input type="submit" value="Agendar" onclick="return validaForm()" >
+            <input type="submit" value="Agendar">
         </form>
         </div>
         <div class="redes-sociales">

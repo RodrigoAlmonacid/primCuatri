@@ -1,11 +1,12 @@
-function validaFecha()
+document.addEventListener('DOMContentLoaded', function(){
+function validaFechaBis()
 {
-    //tomo los input dia, ,es y año, cada uno en una variable
+    //tomo los input dia, mes y año, cada uno en una variable
     let dia=document.getElementById("dia");
     let mes=document.getElementById("mes");
     let anio=document.getElementById("anio");
     let fecha=false;//variable de retorno
-    invalid=false;
+    let invalid=false;
     if(dia.value.trim()=="" || !Number.isInteger(Number(dia.value)) || (Number.isInteger(Number(dia.value)) && Number(dia.value)<1)){
         /*Ingreso al if solo si: (lo mismo para el mes y el año)
         - el valor en el input dia sin espacios es vacío
@@ -28,7 +29,7 @@ function validaFecha()
             mes.setAttribute("required", "");
         }
     }
-    if(anio.value.trim()=="" || !Number.isInteger(Number(anio.value)) || (Number.isInteger(Number(anio.value)) && Number(anio.value)<1)){
+    if(anio.value.trim()=="" || !Number.isInteger(Number(anio.value)) || (Number.isInteger(Number(anio.value)) && Number(anio.value)<2024)){
         anio.style.border="2px solid red";
         invalid=true;
         if(anio.value.trim()==""){
@@ -88,6 +89,77 @@ function validaFecha()
     return fecha;
 }
 
+function validaFechaActual(){
+    // Crear la fecha ingresada (mes en JS es 0-based, por eso restamos 1)
+    let fechaIngresada = new Date(anio.value, mes.value - 1, dia.value);
+    // Crear la fecha de hoy sin hora
+    let hoy = new Date();
+    let fechaPost=false;
+    hoy.setHours(0, 0, 0, 0); // borra la parte de la hora
+    if (fechaIngresada > hoy) {
+        fechaPost=true;
+    }
+    else{
+        alert("La fecha debe ser posterior a hoy.");
+    }
+    return fechaPost;
+}
+
+function validaFecha(){
+    let fechaCorrecta=false;
+    if(validaFechaActual() && validaFechaBis()){
+        fechaCorrecta=true;
+    }
+    return fechaCorrecta;
+}
+
+function validaNombre()
+{
+    var nom=document.getElementById("nombre");
+    var regla=/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;//regla especifica de los valores que quiero aceptar. solo letras con o sin tildes y espacios
+    var verificaNom=regla.test(nom.value.trim());
+    var nombre=false;
+    if(verificaNom){
+        nombre=true;
+        nom.style.border="2px solid green";
+    }
+    else{
+        nom.style.border="2px solid red";
+    }
+    return nombre;
+}
+
+function validaApellido()
+{
+    var apell=document.getElementById("apellido");
+    var apellido=false;
+    var regla=/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    var verificaApell=regla.test(apell.value.trim());
+    if(verificaApell){
+        apellido=true;
+        apell.style.border="2px solid green";
+    }
+    else {
+        apell.style.border="2px solid red";
+    }
+    return apellido;
+}
+
+function validaTel()
+{
+    let telefono=document.getElementById("telefono");
+    let validaTel=false;
+    let tel=Number.isInteger(Number(telefono.value));
+    if(tel && telefono.value>1000000000){
+        validaTel=true;
+        telefono.style.border="2px solid green";
+    }
+    else{
+        telefono.style.border="2px solid red";
+    }
+    return validaTel;
+}
+
 function enteroRango(numero, max){
         numeroEntero=Number.isInteger(Number(numero));
         verifica=false;
@@ -101,15 +173,39 @@ function validaHora(){
     let hora=document.getElementById("hora");
     let minuto=document.getElementById("minuto");
     let validaHora=false;    
-    if(enteroRango(hora, 23) && enteroRango(minuto, 59)){
+    if(enteroRango(hora.value, 23) && enteroRango(minuto.value, 59)){
         validaHora=true;
+        hora.style.border="2px solid green";
+        minuto.style.border="2px solid green";
+    }
+    else{
+        hora.style.border="2px solid red";
+        minuto.style.border="2px solid red";
     }
     return validaHora;
 }
 
-function validaForm(){
-    if(validaFecha()&&validaHora){
-        alert('agendado');
+    function validaForm(){
+        let validaTodo=false;
+    if(validaFecha() && validaHora() && validaApellido() && validaNombre() && validaTel()){
+        validaTodo=true;
     }
-    else{alert('algo salió mal')}
+    return validaTodo;
 }
+
+let form=document.getElementById('formularioVisita');
+form.addEventListener('submit', function(event) {
+      // Evita que el formulario se envíe
+      if(!(validaForm())){
+        event.preventDefault();
+      }
+      let visita={
+        nombreVisita: nom.value.trim(),
+        apellidoVisita: apell.value.trim(),
+        telefonoVisita: telefono.value.trim(),
+        fechaVisita: fechaIngresada,
+        horaVisita: hora.value.trim()
+      }
+    });
+
+});

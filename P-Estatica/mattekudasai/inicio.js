@@ -15,11 +15,13 @@ document.addEventListener("DOMContentLoaded", function(){
       hex1.textContent = colorDiv;
       hex2.textContent = colorFondo;
       divComb.style.backgroundColor = colorDiv;
+      divComb.style.boxShadow="none";
       fondo.style.backgroundColor = colorFondo;
     }
 
     function limpiarColores() {
       divComb.style.backgroundColor = "#e8f6ff";
+      divComb.style.boxShadow=" 0 0 10px #aaa";
       fondo.style.backgroundColor = "#7fffd4";
     }
 

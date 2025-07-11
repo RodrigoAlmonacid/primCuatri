@@ -7,7 +7,7 @@ label {
     margin-bottom: 10px;
 }
 
-.fecha-inputs, .hora-inputs {
+.fecha-inputs, .hora-inputs, .datos-inputs{
     margin-bottom: 12px;
     padding: 10px;
     border-radius: 5px;
@@ -23,8 +23,9 @@ label {
     margin: 0 auto 12px auto; 
 }
 
+
 .hora-inputs input,
-.fecha-inputs input {
+.fecha-inputs input,.datos-inputs input {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
