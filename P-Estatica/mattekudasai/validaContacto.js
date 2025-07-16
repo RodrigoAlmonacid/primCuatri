@@ -90,12 +90,16 @@ function validaFechaBis()
 }
 
 function validaFechaActual(){
-    // Crear la fecha ingresada (mes en JS es 0-based, por eso restamos 1)
+    let dia=document.getElementById("dia");
+    let mes=document.getElementById("mes");
+    let anio=document.getElementById("anio");
+    // Crear la fecha ingresada (mes en JS es 0-based (arranca en cero), por eso restamos 1)
     let fechaIngresada = new Date(anio.value, mes.value - 1, dia.value);
     // Crear la fecha de hoy sin hora
     let hoy = new Date();
     let fechaPost=false;
     hoy.setHours(0, 0, 0, 0); // borra la parte de la hora
+    fechaIngresada.setHours(0, 0, 0, 0);
     if (fechaIngresada > hoy) {
         fechaPost=true;
     }
@@ -115,10 +119,10 @@ function validaFecha(){
 
 function validaNombre()
 {
-    var nom=document.getElementById("nombre");
-    var regla=/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;//regla especifica de los valores que quiero aceptar. solo letras con o sin tildes y espacios
-    var verificaNom=regla.test(nom.value.trim());
-    var nombre=false;
+    let nom=document.getElementById("nombre");
+    let regla=/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;//regla especifica de los valores que quiero aceptar. solo letras con o sin tildes y espacios
+    let verificaNom=regla.test(nom.value.trim());
+    let nombre=false;
     if(verificaNom){
         nombre=true;
         nom.style.border="2px solid green";
@@ -131,10 +135,10 @@ function validaNombre()
 
 function validaApellido()
 {
-    var apell=document.getElementById("apellido");
-    var apellido=false;
-    var regla=/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
-    var verificaApell=regla.test(apell.value.trim());
+    let apell=document.getElementById("apellido");
+    let apellido=false;
+    let regla=/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    let verificaApell=regla.test(apell.value.trim());
     if(verificaApell){
         apellido=true;
         apell.style.border="2px solid green";
@@ -161,8 +165,8 @@ function validaTel()
 }
 
 function enteroRango(numero, max){
-        numeroEntero=Number.isInteger(Number(numero));
-        verifica=false;
+        let numeroEntero=Number.isInteger(Number(numero));
+        let verifica=false;
         if(numeroEntero && numero<=max && numero>=0 && numero!=""){
           verifica=true;
         }
@@ -195,17 +199,58 @@ function validaHora(){
 
 let form=document.getElementById('formularioVisita');
 form.addEventListener('submit', function(event) {
-      // Evita que el formulario se envíe
-      if(!(validaForm())){
-        event.preventDefault();
-      }
-      let visita={
-        nombreVisita: nom.value.trim(),
-        apellidoVisita: apell.value.trim(),
-        telefonoVisita: telefono.value.trim(),
-        fechaVisita: fechaIngresada,
-        horaVisita: hora.value.trim()
-      }
-    });
+    let nom=document.getElementById("nombre");
+    let apell=document.getElementById("apellido");
+    let dia=document.getElementById("dia");
+    let mes=document.getElementById("mes");
+    let anio=document.getElementById("anio");
+    let fechaIngresada = new Date(anio.value, mes.value - 1, dia.value);
+    fechaIngresada.setHours(0, 0, 0, 0);
+    let telefono=document.getElementById("telefono");
+    let hora=document.getElementById("hora");
 
+    // Evita que el formulario se envíe
+    if(validaForm()){
+        const unaVisita={
+            nombreVisita: nom.value.trim(),
+            apellidoVisita: apell.value.trim(),
+            telefonoVisita: telefono.value.trim(),
+            fechaVisita: fechaIngresada.toLocaleDateString("es-AR"),
+            horaVisita: hora.value.trim()
+        }
+        let visitas=JSON.parse(localStorage.getItem("visitas")) || [];
+        visitas.push(unaVisita);
+        localStorage.setItem("visitas", JSON.stringify(visitas));
+        form.reset();
+        alert("Visita agendada correctamente.");
+    }
+    else{
+        event.preventDefault();
+    }
+    });
+function mostrarVisitas() {
+    const contenedor = document.getElementById("listaVisitas");
+    const visitas = JSON.parse(localStorage.getItem("visitas")) || [];
+
+    if (visitas.length === 0) {
+        contenedor.innerHTML = "<p>No hay visitas guardadas.</p>";
+        return;
+    }
+    else{
+        let numVisita=0;
+        let texto="";
+    visitas.forEach(unaVisita => {
+        numVisita++;
+        let nombre=unaVisita.nombreVisita;
+        let apellido=unaVisita.apellidoVisita;
+        let telefono=unaVisita.telefonoVisita;
+        let fecha=unaVisita.fechaVisita;
+        let hora=unaVisita.horaVisita;
+        texto+="<h2>Visita N°: "+numVisita+"</h2><br>Apellido y Nombre: "+apellido+" "+nombre;
+        texto+="<br>Teléfono de contacto: "+telefono+"<br>Fecha: "+fecha+"<br>Horario: "+hora+"<br>";
+    });
+    contenedor.innerHTML=texto;
+    }
+}
+mostrarVisitas();
 });
