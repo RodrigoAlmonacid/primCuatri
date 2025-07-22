@@ -4,8 +4,9 @@ header {
     padding: 1rem;
     background-color: #54aeeb;
     border-bottom: 2px solid #091cc7;
-    position: relative;
+    position: sticky;
     top: 0;
+    z-index: 100;
 }
 .seccion {
   max-width: 600px;
