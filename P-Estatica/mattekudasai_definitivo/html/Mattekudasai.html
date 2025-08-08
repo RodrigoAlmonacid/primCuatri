@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" href="../imagenes/matteIcono.ico" type="image/x-ico">
+        <title>Mattekudasai Servicios</title>
+        <link rel="stylesheet" href="../css/estiloMatte.css"/>
+        <script src="../js/inicio.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <div class="logo-container">
+                <img src="../imagenes/MATTEKUDASAI2.png" alt="Logo Mattekudasai" class="logo"/>
+                <h1 class="titulo">Mattekudasai Servicios</h1>
+            </div>
+            <nav class="nav-links">
+                <div class="menu">
+                    <h3><a name="inicio">Inicio</a></h3>
+                    <h3><a href="servicios.html">Servicios</a></h3>
+                    <h3><a href="trabajos.html">Trabajos</a></h3>
+                    <h3><a href="cotizador.html">Cotizador</a></h3>
+                    <h3><a href="contacto.html">Contactanos</a></h3>
+                    <h3><a href="valoracion.html">Valoranos</a></h3>
+                </div>
+            </nav>    
+        </header>
+        <div class="seccion">
+            <p>En Mattekudasai no solo pensamos en nuestros visitantes como clientes.
+                Nuestra idea es ayudarlos en sus emprendimientos, y para ello ofrecemos algunas herramientas
+                que pueden ser útiles a la hora de llevar adelante tus proyectos.
+            </p>
+            <p>
+                Obviamente que somos una empresa que ofrece el servicio de pinturería y por ello en nuestro sitio encontrarás toda nuestra 
+                información, datos de contacto y podrás agendar tu visita.<br>
+                También conocerás un poco de nuestra historia, el servicio detallado que ofrecemos y una galeria con algunas imágenes ilustrativas.<br>
+                Pero decidimos ir más allá y te ofrecemos una calculadora con la que tendrás una breve ineracción para calcular tus materiales, 
+                y una sección donde probar alguna combinación de dupla de colores.<br>
+            </p>
+            <p>
+                ¿Qué necesitas?<br>
+                Solamente las medidas aproximadas de las paredes que querés pintar y ganas de probar distintas cominaciones.
+            </p>
+            <p>
+                ¿Y si algo no sale como esperabas?<br>
+                No te preocupes, estamos para eso, <a href="contacto.html">agendá tu visita</a>...<br>
+                <i>EXITOS</i>
+            </p>
+        </div>
+        <div class="seccion"  id="divPaleta">
+                <h2>Buscá tu combinación</h2>
+
+                <label>Color 1:
+                    <input type="color" id="color1" value="#ff0000">
+                </label>
+                <span id="hex1">#ff0000</span>
+                <div class="color-box" id="box1" style="background-color: #ff0000;"></div>
+                <label>Color 2:
+                    <input type="color" id="color2" value="#7fffd4">
+                </label>
+                <span id="hex2">#7fffd4</span><br><br>
+                <input type="button" value="Combinar" id="combinar">
+                <input type="button" value="Limpiar" id="limpiar">
+        </div>
+    </body>
+</html> 

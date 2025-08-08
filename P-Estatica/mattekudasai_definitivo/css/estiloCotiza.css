@@ -1,0 +1,15 @@
+input, select{
+    width: 30%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;     
+}
+label{
+    text-align: justify;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    padding: auto;
+    margin-top: 10px;
+}

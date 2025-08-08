@@ -1,0 +1,55 @@
+
+
+label {
+    text-align: center;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.fecha-inputs, .hora-inputs, .datos-inputs{
+    margin-bottom: 12px;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    gap: 10px;
+    width: 100%;             
+}
+
+.hora-inputs {
+    max-width: 400px;        
+    margin: 0 auto 12px auto; 
+}
+
+
+.hora-inputs input,
+.fecha-inputs input,.datos-inputs input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.redes-sociales {
+  position: fixed;
+  top: 40%;
+  right: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1000;
+}
+
+.redes-sociales img {
+  box-shadow: 0 0 10px #aaa;
+  border-radius: 20px;
+  width: 48px;              
+  height: 48px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  margin-right: auto;
+}
+

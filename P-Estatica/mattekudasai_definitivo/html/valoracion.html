@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+         <meta charset="UTF-8"/>
+         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+         <link rel="icon" href="imagenes/matteIcono.ico" type="image/x-ico">
+         <title>Valoranos</title>
+         <link rel="stylesheet" href="estiloMatte.css"/>
+         <link rel="stylesheet" href="estiloValora.css"/>
+         <script src="validaValoracion.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <div class="logo-container">
+                <img src="imagenes/MATTEKUDASAI2.png" alt="Logo Mattekudasai" class="logo"/>
+                <h1 class="titulo">Mattekudasai Servicios</h1>
+            </div>
+            <nav class="nav-links">
+                <div class="menu">
+                    <h3><a href="Mattekudasai.html">Inicio</a></h3>
+                    <h3><a href="servicios.html">Servicios</a></h3>
+                    <h3><a href="trabajos.html">Trabajos</a></h3>
+                    <h3><a href="cotizador.html">Cotizador</a></h3>
+                    <h3><a href="contacto.html">Contactanos</a></h3>
+                    <h3><a name="valoracion">Valoranos</a></h3><!--Ancla para volver al arriba-->
+                </div>
+            </nav>    
+        </header>
+    <div class="seccion">
+    <h2>Dejanos tu valoración</h2>
+
+    <form id="formularioValoracion">
+        <ul>
+            <li>Puntualidad</li>
+                <div class="estrellas">
+                    <label><input type="radio" class="puntualidad" name="estPunt" value="1"> ⭐</label><br>
+                    <label><input type="radio" class="puntualidad" name="estPunt" value="2"> ⭐⭐</label><br>
+                    <label><input type="radio" class="puntualidad" name="estPunt" value="3"> ⭐⭐⭐</label><br>
+                    <label><input type="radio" class="puntualidad" name="estPunt" value="4"> ⭐⭐⭐⭐</label><br>
+                    <label><input type="radio" class="puntualidad" name="estPunt" value="5"> ⭐⭐⭐⭐⭐</label>
+                </div>
+
+                <div>
+                    <label for="comentarioPunt" id="comPunt">Comentario:</label><br>
+                    <textarea id="comentarioPunt" rows="4" cols="50" placeholder="¿Qué te pareció la puntualidad en cada etapa del trabajo?"></textarea>
+                </div>
+
+            <li>Prolijidad</li>
+                <div class="estrellas">
+                    <label><input type="radio" class="prolijidad" name="estProl" value="1"> ⭐</label><br>
+                    <label><input type="radio" class="prolijidad" name="estProl" value="2"> ⭐⭐</label><br>
+                    <label><input type="radio" class="prolijidad" name="estProl" value="3"> ⭐⭐⭐</label><br>
+                    <label><input type="radio" class="prolijidad" name="estProl" value="4"> ⭐⭐⭐⭐</label><br>
+                    <label><input type="radio" class="prolijidad" name="estProl" value="5"> ⭐⭐⭐⭐⭐</label>
+                </div>
+
+                <div>
+                    <label for="comentarioProl" id="comProl">Comentario:</label><br>
+                    <textarea id="comentarioProl" rows="4" cols="50" placeholder="¿Qué te pareció la prolijidad del trabajo?"></textarea>
+                </div>
+
+                <div id="campoMejoraProl" style="display: none;">
+                    <label for="mejoraProl">¿Cómo podríamos mejorar?</label><br>
+                    <textarea id="mejoraProl" class="textSugerencia" rows="3" cols="50" placeholder="Tu sugerencia nos ayuda..."></textarea>
+                </div>
+
+            <li>Rapidez</li>
+                <div class="estrellas">
+                    <label><input type="radio" class="rapidez" name="estRap" value="1"> ⭐</label><br>
+                    <label><input type="radio" class="rapidez" name="estRap" value="2"> ⭐⭐</label><br>
+                    <label><input type="radio" class="rapidez" name="estRap" value="3"> ⭐⭐⭐</label><br>
+                    <label><input type="radio" class="rapidez" name="estRap" value="4"> ⭐⭐⭐⭐</label><br>
+                    <label><input type="radio" class="rapidez" name="estRap" value="5"> ⭐⭐⭐⭐⭐</label>
+                </div>
+
+                <div>
+                    <label for="comentarioRap" id="comRap">Comentario:</label><br>
+                    <textarea id="comentarioRap" rows="4" cols="50" placeholder="Contanos tu experiencia..."></textarea>
+                </div>
+
+                <div id="campoMejoraRap" style="display: none;">
+                    <label for="mejoraRap">¿Cómo podríamos mejorar?</label><br>
+                    <textarea id="mejoraRap" class="textSugerencia" rows="3" cols="50" placeholder="Tu sugerencia..."></textarea>
+                </div>
+
+            <li>Calidad de nuestros materiales</li>
+                <div class="estrellas">
+                    <label><input type="radio" class="calidad" name="estCal" value="1"> ⭐</label><br>
+                    <label><input type="radio" class="calidad" name="estCal" value="2"> ⭐⭐</label><br>
+                    <label><input type="radio" class="calidad" name="estCal" value="3"> ⭐⭐⭐</label><br>
+                    <label><input type="radio" class="calidad" name="estCal" value="4"> ⭐⭐⭐⭐</label><br>
+                    <label><input type="radio" class="calidad" name="estCal" value="5"> ⭐⭐⭐⭐⭐</label>
+                </div>
+
+                <div>
+                    <label for="comentarioCal" id="comCal">Comentario:</label><br>
+                    <textarea id="comentarioCal" rows="4" cols="50" placeholder="¿Qué te pareció la calidad de los productos utilizados?"></textarea>
+                </div>
+
+                <div id="campoMejoraCal" style="display: none;">
+                    <label for="mejoraCal">¿Cómo podríamos mejorar?</label><br>
+                    <textarea id="mejoraCal"class="textSugerencia" rows="3" cols="50" placeholder="Tu sugerencia..."></textarea>
+                </div>
+
+            <li>Satisfacción:</li>
+                <div id="campoSatisfaccion" style="display: none;">
+                    <label for="satisfaccion" id="satis"></label><br>
+                    <textarea id="satisfaccion" class="textSugerencia" rows="3" cols="50" placeholder="¿Nos recomendarías?"></textarea>
+                </div>
+
+            <br> 
+            <input type="submit"></input>
+        </ul>
+    </form>
+</div>
+
+    </body>
+</html>
