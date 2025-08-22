@@ -4,6 +4,6 @@ CREATE TABLE imagenes(
     path VARCHAR(255),
     titulo VARCHAR(255),
     alt VARCHAR(255),
-    delete_at VARCHAR(255),
+    delete_at DATE,
     id_tipo_trabajo INT(2)
 );

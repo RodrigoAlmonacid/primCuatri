@@ -3,7 +3,7 @@ include_once 'BaseDatos.php';
 class Imagenes{
     //Atributos
     private $idImagen;
-    private $path;
+    private $dirUrl;
     private $titulo;
     private $alt;
     private $delete_at;
@@ -13,7 +13,7 @@ class Imagenes{
     public function __construct()
     {
         $this->idImagen=null;
-        $this->path="";
+        $this->dirUrl="";
         $this->titulo="";
         $this->alt="";
         $this->delete_at=null;
@@ -28,11 +28,11 @@ class Imagenes{
         $this->idImagen=$idImagen;
     }
 
-    public function getPath(){
-        return $this->path;
+    public function getDirUrl(){
+        return $this->dirUrl;
     }
-    public function setPath($path){
-        $this->path=$path;
+    public function setDirUrl($dirUrl){
+        $this->dirUrl=$dirUrl;
     }
 
     public function getTitulo(){
@@ -65,8 +65,8 @@ class Imagenes{
 
     /** función para cargar una imágen
      */
-    public function cargar($path, $titulo, $alt, $delete_at, $tipoTrabajo){
-        $this->setPath($path);
+    public function cargar($dirUrl, $titulo, $alt, $delete_at, $tipoTrabajo){
+        $this->setDirUrl($dirUrl);
         $this->setTitulo($titulo);
         $this->setAlt($alt);
         $this->setDelete_at($delete_at);
@@ -87,11 +87,11 @@ class Imagenes{
                 if($row){
                     $respuesta=true;
                     $this->setIdImagen($row['id']);
-                    $this->setPath($row['path']);
+                    $this->setDirUrl($row['dirUrl']);
                     $this->setTitulo($row['titulo']);
                     $this->setAlt($row['alt']);
                     $this->setDelete_at($row['delete_at']);
-                    $this->setId_tipo_trabajo($row['tipoTrabajo']);
+                    $this->setId_tipo_trabajo($row['id_tipo_trabajo']);
                 }
             }
         }
@@ -126,13 +126,15 @@ class Imagenes{
     public function insertar(){
         $agrega=false;
         $base=new BaseDatos();
-        $consulta="INSERT INTO imagenes(path, titulo, alt, delete_at, id_tipo_trabajo) VALUES";
-        $consulta.="('".$this->getPath()."', '".$this->getTitulo()."', '".$this->getAlt()."', null, ".$this->getId_tipo_trabajo().");";
+        $consulta="INSERT INTO imagenes(dirUrl, titulo, alt, delete_at, id_tipo_trabajo) VALUES";
+        $consulta.="('".$this->getDirUrl()."', '".$this->getTitulo()."', '".$this->getAlt()."', null, ".$this->getId_tipo_trabajo().");";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $agrega=true;
-            } 	
+            }
+            else {echo "no se ejecuta la consulta";} 	
         }
+        else {echo "no se inicia la conexión";}
         $base->Cerrar();
         return $agrega;   
     }
@@ -144,8 +146,11 @@ class Imagenes{
         $base=new BaseDatos();
         $modifica=false;
         $consulta="UPDATE imagenes SET ";
-        $consulta.="id=".$this->getIdImagen().", path=".$this->getPath().", titulo=".$this->getTitulo().", alt=".$this->getAlt();
-        $consulta.=", delete_at='".$this->getDelete_at().", id_tipo_trabajo=".$this->getId_tipo_trabajo().") WHERE id=".$this->getIdImagen();        
+        $consulta.="id=".$this->getIdImagen().", dirUrl='".$this->getDirUrl()."', titulo='".$this->getTitulo()."', alt='".$this->getAlt();
+        if($this->getDelete_at()){
+            $consulta.="', delete_at='".$this->getDelete_at()."'";
+            }
+        $consulta.="', id_tipo_trabajo=".$this->getId_tipo_trabajo()." WHERE id=".$this->getIdImagen();        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
             $modifica=true;

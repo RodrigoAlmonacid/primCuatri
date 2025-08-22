@@ -10,9 +10,9 @@ class BaseDatos {
     private $error;
 
     public function __construct() {
-        $this->hostName = "localhost:8080";
+        $this->hostName = "localhost";
         $this->baseDatos = "mattekudasai";
-        $this->usuario = "root@localhost";
+        $this->usuario = "root";
         $this->clave = "";
         $this->result = null;
         $this->query = "";
@@ -75,14 +75,13 @@ class BaseDatos {
      */
     public function Iniciar() {
         $resp = false;
-        mysqli_report(MYSQLI_REPORT_OFF);
+        //mysqli_report(MYSQLI_REPORT_OFF);
         $conexion = mysqli_connect(
             $this->getHostName(),
             $this->getUsuario(),
             $this->getClave(),
             $this->getBaseDatos()
         );
-
         if ($conexion) {
             $this->conexion = $conexion;
             $this->setQuery(null);
@@ -91,7 +90,6 @@ class BaseDatos {
         } else {
             $this->setError(mysqli_connect_errno() . ": " . mysqli_connect_error());
         }
-
         return $resp;
     }
 
@@ -121,7 +119,6 @@ class BaseDatos {
     public function Registro() {
         $resp = null;
         $this->setError(null);
-
         if ($this->getResult() instanceof mysqli_result) {
             $registro = mysqli_fetch_assoc($this->getResult());
             if ($registro) {
